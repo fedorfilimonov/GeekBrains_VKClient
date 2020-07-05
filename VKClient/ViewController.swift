@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var loginPageScrollView: UIScrollView!
     
-    @IBOutlet weak var AppNameTitle: UILabel!
+    @IBOutlet weak var appNameTitle: UILabel!
     
     @IBOutlet weak var loginField: UITextField!
     
@@ -56,6 +56,47 @@ class ViewController: UIViewController {
     @objc func hideKeyboard() {
         loginPageScrollView.endEditing(true)
     }
+    
+    private func checkLoginInfo() -> Bool {
+        guard let loginText = loginField.text else { return false }
+        guard let pwdText = passwordField.text else { return false }
+        
+        if loginText == "admin", pwdText == "12345" {
+            print("Успешно!")
+            return true
+        }
+        else {
+            print("Не очень успешно")
+            return false
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        if identifier == "LogInCorrectSegue" {
+            if checkLoginInfo() {
+                return true
+            }
+            else {
+                showLoginError()
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    private func showLoginError() {
+        let alert = UIAlertController(title: "Ошибка!", message: "Логин и/или пароль не верны", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func LogInActionButton(_ sender: UIButton) {
+    }
+    
 }
-
-
+    
