@@ -12,8 +12,8 @@ class GroupsListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var groupsListCatalogue = [
-        GroupsListItem(groupName: "Group_Name_1", groupPic: UIImage(named: "profilePhoto_2")!),
-        GroupsListItem(groupName: "Group_Name_2", groupPic: UIImage(named: "profilePhoto_2")!)
+        GroupsListItem(groupName: "Group_Name_1", groupPic: UIImage(named: "groupPhoto_1")!),
+        GroupsListItem(groupName: "Group_Name_2", groupPic: UIImage(named: "groupPhoto_2")!)
     ]
     
     override func viewDidLoad() {
@@ -37,5 +37,14 @@ extension GroupsListViewController: UITableViewDataSource {
         print("Cell created for row: \(indexPath.row), \(groupsListCatalogue[indexPath.row])")
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            groupsListCatalogue.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
