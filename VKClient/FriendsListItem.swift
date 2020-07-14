@@ -10,5 +10,5 @@ import UIKit
 
 struct FriendsListItem: Equatable {
     let friendName: String
-    let friendPic: UIImage
+    let friendPic: UIImage!
 }

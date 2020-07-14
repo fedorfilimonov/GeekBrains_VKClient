@@ -11,7 +11,7 @@ import UIKit
 
 class FriendListCell: UITableViewCell {
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var userPic: UIImageView!
+    @IBOutlet weak var userPic: SmallProfilePicView!
     
     override func prepareForReuse() {
         super.prepareForReuse()

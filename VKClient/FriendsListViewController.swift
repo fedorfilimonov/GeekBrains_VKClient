@@ -32,10 +32,20 @@ extension FriendsListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as? FriendListCell else { fatalError() }
         
         cell.userName.text = friendsListCatalogue[indexPath.row].friendName
-        cell.userPic.image = friendsListCatalogue[indexPath.row].friendPic
+        cell.userPic.avatarImage.image = friendsListCatalogue[indexPath.row].friendPic
         
         print("Cell created for row: \(indexPath.row), \(friendsListCatalogue[indexPath.row])")
         
         return cell
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        
+//        if segue.identifier == "FriendListActionSegue",
+//            let cell = sender as? FriendListCell,
+//            let destination = segue.destination as? FriendPageViewController {
+//            destination.image = cell.userPic.avatarImage.image!
+//        }
+//    }
 }
