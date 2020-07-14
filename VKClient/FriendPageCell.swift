@@ -6,12 +6,14 @@
 //  Copyright © 2020 fedorfilimonov. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class FriendPageCell: UICollectionViewCell {
+class FriendPageCell: UITableViewCell {
     @IBOutlet weak var userPic: UIImageView!
     
     override func prepareForReuse() {
         super.prepareForReuse()
     }
 }
+

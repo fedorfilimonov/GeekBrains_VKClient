@@ -10,9 +10,10 @@ import UIKit
 
 class FriendPageViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-
+    
+    var profilePic1: UIImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 }
-
