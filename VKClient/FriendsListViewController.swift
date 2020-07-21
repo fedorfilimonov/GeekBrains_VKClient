@@ -38,5 +38,13 @@ extension FriendsListViewController: UITableViewDataSource {
         
         return cell
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FriendListActionSegue" { //проверяем идентификатор segue
+
+            let dataToSend = sender as? FriendListCell //dataToSend - источник данных - выбранная ячейка
+            let destination = segue.destination as? FriendPageViewController //переменная, приведенная к точке назначения
+            destination!.profilePic1 = dataToSend?.userPic.avatarImage.image //в profilePic1 запихиваем картинку, которую передаем
+        }
+    }
 }
 

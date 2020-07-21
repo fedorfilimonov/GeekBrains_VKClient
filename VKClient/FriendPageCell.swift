@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class FriendPageCell: UITableViewCell {
-    @IBOutlet weak var userPic: UIImageView!
+class FriendPageCell: UICollectionViewCell {
     
+    @IBOutlet weak var userPic: UIImageView!
     override func prepareForReuse() {
         super.prepareForReuse()
     }

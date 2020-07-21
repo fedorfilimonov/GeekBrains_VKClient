@@ -193,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="2618.840579710145" y="-244.41964285714283"/>
         </scene>
-        <!--Friends Page View Controller-->
+        <!--Friend Page View Controller-->
         <scene sceneID="xrQ-DT-CJK">
             <objects>
-                <viewController id="DSg-3i-k0O" customClass="FriendsPageViewController" customModule="VKClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="DSg-3i-k0O" customClass="FriendPageViewController" customModule="VKClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qsC-RI-70G">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -211,34 +211,26 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Qfc-2o-C8x" customClass="FriendPageCell" customModule="VKClient" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPageCell" id="Qfc-2o-C8x" customClass="FriendPageCell" customModule="VKClient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="dYi-kt-TxP">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nUJ-2g-e05">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="100" id="Lgg-PN-LOS"/>
-                                                        <constraint firstAttribute="width" constant="100" id="gyh-0X-oLP"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aEM-C3-Wcr">
-                                                    <rect key="frame" x="-60" y="-14" width="240" height="128"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zxv-xN-cju">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="nUJ-2g-e05" secondAttribute="bottom" id="1rd-RK-XLG"/>
-                                                <constraint firstItem="nUJ-2g-e05" firstAttribute="leading" secondItem="dYi-kt-TxP" secondAttribute="leading" id="2Pc-zk-6XY"/>
-                                                <constraint firstAttribute="trailing" secondItem="nUJ-2g-e05" secondAttribute="trailing" id="Xfz-Jq-CC8"/>
-                                                <constraint firstItem="nUJ-2g-e05" firstAttribute="top" secondItem="dYi-kt-TxP" secondAttribute="top" id="uwO-bF-RRA"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zxv-xN-cju" secondAttribute="trailing" id="Hdw-nu-hFj"/>
+                                                <constraint firstItem="Zxv-xN-cju" firstAttribute="top" secondItem="dYi-kt-TxP" secondAttribute="top" id="RTu-9H-9J4"/>
+                                                <constraint firstAttribute="bottom" secondItem="Zxv-xN-cju" secondAttribute="bottom" id="c41-kK-yUJ"/>
+                                                <constraint firstItem="Zxv-xN-cju" firstAttribute="leading" secondItem="dYi-kt-TxP" secondAttribute="leading" id="qqu-a1-zAV"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="userPic" destination="nUJ-2g-e05" id="uS3-G8-3jW"/>
+                                            <outlet property="userPic" destination="Zxv-xN-cju" id="Bf0-GW-Dcq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -254,6 +246,9 @@
                         <viewLayoutGuide key="safeArea" id="Z9L-d9-jpI"/>
                     </view>
                     <navigationItem key="navigationItem" id="MrE-R7-9TC"/>
+                    <connections>
+                        <outlet property="collectionView" destination="qYC-IH-tQS" id="db4-5X-Yxz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cu9-dA-AGr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
