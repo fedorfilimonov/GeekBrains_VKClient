@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "REC_ASA_CM17_20170213_195214_3969.1487048078.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

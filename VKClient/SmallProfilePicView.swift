@@ -16,11 +16,13 @@ class SmallProfilePicView: UIView {
             self.layer.shadowColor = shadowColor.cgColor
         }
     }
+    
     @IBInspectable var shadowOpacity: Float = 0.6 {
         didSet {
             self.layer.shadowOpacity = shadowOpacity
         }
     }
+    
     @IBInspectable var shadowRadius: CGFloat = 5 {
         didSet {
             self.layer.shadowRadius = shadowRadius

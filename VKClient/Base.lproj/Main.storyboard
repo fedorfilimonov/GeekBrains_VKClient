@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4vs-DP-CeX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4vs-DP-CeX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -135,9 +135,14 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NK1-pj-Y10">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="pjP-Xs-jsC">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FriendListCell" id="hWW-U5-aS6" customClass="FriendListCell" customModule="VKClient" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                        <rect key="frame" x="0.0" y="72" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hWW-U5-aS6" id="JNx-ls-DYH">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -186,6 +191,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="KCc-PJ-ZaZ"/>
                     <connections>
+                        <outlet property="friendSearch" destination="pjP-Xs-jsC" id="M7e-HX-WP0"/>
                         <outlet property="tableView" destination="NK1-pj-Y10" id="nZH-we-6OF"/>
                     </connections>
                 </viewController>
@@ -205,31 +211,43 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PTe-5v-7te">
-                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="itemSize" width="128" height="222"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPageCell" id="Qfc-2o-C8x" customClass="FriendPageCell" customModule="VKClient" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="222"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="dYi-kt-TxP">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="222"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zxv-xN-cju">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="192"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhj-qT-pSo" customClass="PhotoLikesControl" customModule="VKClient" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="192" width="30" height="30"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="y1l-mm-WNA"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Dhj-qT-pSo" firstAttribute="leading" secondItem="dYi-kt-TxP" secondAttribute="leading" id="Cd1-Dn-H4c"/>
                                                 <constraint firstAttribute="trailing" secondItem="Zxv-xN-cju" secondAttribute="trailing" id="Hdw-nu-hFj"/>
                                                 <constraint firstItem="Zxv-xN-cju" firstAttribute="top" secondItem="dYi-kt-TxP" secondAttribute="top" id="RTu-9H-9J4"/>
-                                                <constraint firstAttribute="bottom" secondItem="Zxv-xN-cju" secondAttribute="bottom" id="c41-kK-yUJ"/>
+                                                <constraint firstAttribute="bottom" secondItem="Zxv-xN-cju" secondAttribute="bottom" constant="30" id="c41-kK-yUJ"/>
+                                                <constraint firstAttribute="bottom" secondItem="Dhj-qT-pSo" secondAttribute="bottom" id="cFl-uj-UoD"/>
+                                                <constraint firstItem="Dhj-qT-pSo" firstAttribute="top" secondItem="Zxv-xN-cju" secondAttribute="bottom" id="lco-dj-P5Z"/>
                                                 <constraint firstItem="Zxv-xN-cju" firstAttribute="leading" secondItem="dYi-kt-TxP" secondAttribute="leading" id="qqu-a1-zAV"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <size key="customSize" width="128" height="222"/>
                                         <connections>
+                                            <outlet property="photoLikes" destination="Dhj-qT-pSo" id="myL-Tt-yNk"/>
                                             <outlet property="userPic" destination="Zxv-xN-cju" id="Bf0-GW-Dcq"/>
                                         </connections>
                                     </collectionViewCell>
@@ -252,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cu9-dA-AGr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3416" y="-244"/>
+            <point key="canvasLocation" x="3415.9420289855075" y="-244.41964285714283"/>
         </scene>
         <!--Groups-->
         <scene sceneID="Dk2-Qy-d25">
@@ -282,6 +300,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7aA-Wx-fWX">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <searchBar key="tableFooterView" contentMode="redraw" id="xDs-lM-gFg">
+                                    <rect key="frame" x="0.0" y="156" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FriendListCell" id="f9T-H9-A06" customClass="FriendListCell" customModule="VKClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="100"/>
@@ -324,7 +347,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="GgL-dY-f4Y"/>
+                                    <navigationItem title="Мои друзья" id="GgL-dY-f4Y"/>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -339,6 +362,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="XUN-Vs-GY6"/>
                     <connections>
+                        <outlet property="friendsSearch" destination="xDs-lM-gFg" id="mA1-XD-6PH"/>
                         <outlet property="tableView" destination="7aA-Wx-fWX" id="abi-Fs-8Pe"/>
                     </connections>
                 </viewController>
@@ -346,7 +370,7 @@
             </objects>
             <point key="canvasLocation" x="2618.840579710145" y="-244.41964285714283"/>
         </scene>
-        <!--Groups List View Controller-->
+        <!--Мои группы-->
         <scene sceneID="PRY-PS-UAV">
             <objects>
                 <viewController id="WZo-27-wHI" customClass="GroupsListViewController" customModule="VKClient" customModuleProvider="target" sceneMemberID="viewController">
@@ -405,7 +429,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LnM-Uv-ebc"/>
                     </view>
-                    <navigationItem key="navigationItem" id="3f4-6z-tfw"/>
+                    <navigationItem key="navigationItem" title="Мои группы" id="3f4-6z-tfw"/>
                     <connections>
                         <outlet property="tableView" destination="ZV0-0B-tje" id="SJH-Z8-geL"/>
                     </connections>
