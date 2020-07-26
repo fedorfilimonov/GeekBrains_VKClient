@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4vs-DP-CeX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -47,6 +47,14 @@
                                             <segue destination="4vs-DP-CeX" kind="presentation" identifier="LogInCorrectSegue" modalPresentationStyle="fullScreen" id="xGY-LL-kRN"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gqd-gf-bMc">
+                                        <rect key="frame" x="197" y="385" width="20" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Jh1-JF-dgf"/>
+                                            <constraint firstAttribute="width" constant="20" id="g9r-32-f28"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Fhv-f0-KRD" firstAttribute="top" secondItem="fZt-q7-VRN" secondAttribute="bottom" constant="28" id="8Tn-kT-P4u"/>
@@ -58,6 +66,8 @@
                                     <constraint firstItem="hfB-3b-2lg" firstAttribute="top" secondItem="ubd-rc-OPt" secondAttribute="top" constant="76" id="U81-OU-u4D"/>
                                     <constraint firstItem="Fhv-f0-KRD" firstAttribute="width" secondItem="fZt-q7-VRN" secondAttribute="width" id="WAn-Mh-Ihz"/>
                                     <constraint firstItem="fZt-q7-VRN" firstAttribute="top" secondItem="hfB-3b-2lg" secondAttribute="bottom" constant="51" id="ZsF-0Y-JRP"/>
+                                    <constraint firstItem="Gqd-gf-bMc" firstAttribute="top" secondItem="JEj-4l-OFh" secondAttribute="bottom" constant="30" id="e0B-g9-82V"/>
+                                    <constraint firstItem="Gqd-gf-bMc" firstAttribute="centerX" secondItem="JEj-4l-OFh" secondAttribute="centerX" id="gIT-zA-tZp"/>
                                     <constraint firstItem="fZt-q7-VRN" firstAttribute="centerX" secondItem="hfB-3b-2lg" secondAttribute="centerX" id="gmZ-PE-gl0"/>
                                     <constraint firstItem="hfB-3b-2lg" firstAttribute="centerX" secondItem="ubd-rc-OPt" secondAttribute="centerX" id="nWZ-WQ-Q9q"/>
                                     <constraint firstAttribute="bottom" secondItem="JEj-4l-OFh" secondAttribute="bottom" constant="425" id="nh2-Nd-O5J"/>
@@ -78,6 +88,7 @@
                     <navigationItem key="navigationItem" id="mGJ-a4-Zgb"/>
                     <connections>
                         <outlet property="appNameTitle" destination="hfB-3b-2lg" id="3hf-hv-pmy"/>
+                        <outlet property="loadingBar" destination="Gqd-gf-bMc" id="ljp-7h-Sdg"/>
                         <outlet property="loginActionButton" destination="JEj-4l-OFh" id="ViW-zH-JKQ"/>
                         <outlet property="loginField" destination="fZt-q7-VRN" id="4Wj-Fj-RKH"/>
                         <outlet property="loginPageScrollView" destination="ubd-rc-OPt" id="htG-zC-pLQ"/>

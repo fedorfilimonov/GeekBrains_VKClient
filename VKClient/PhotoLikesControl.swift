@@ -58,22 +58,22 @@ class PhotoLikesControl: UIControl {
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         
-        if friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked {
-            self.likesImage.image = UIImage(systemName: "heart")
-            friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber -= 1
-            friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked = false
-            self.likesCount.text = String(friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber)
-            likesCount.textColor = .black
+        UIView.transition(with: self, duration: 0.3, options: .transitionFlipFromLeft, animations: {
             
-        }
-            
-        else {
-            self.likesImage.image = UIImage(systemName: "heart.fill")
-            friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber += 1
-            friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked = true
-            self.likesCount.text = String(friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber)
-            likesCount.textColor = .red
-        }
+            if friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked {
+                self.likesImage.image = UIImage(systemName: "heart")
+                friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber -= 1
+                friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked = false
+                self.likesCount.text = String(friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber)
+            }
+                
+            else {
+                self.likesImage.image = UIImage(systemName: "heart.fill")
+                friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber += 1
+                friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].isPhotoLiked = true
+                self.likesCount.text = String(friendsListCatalogue[self.indexLike].friendPhoto[self.photoCount].photoLikesNumber)
+            }
+        })
         
         return false
     }

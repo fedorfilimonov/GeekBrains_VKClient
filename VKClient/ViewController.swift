@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         loginPageScrollView.addGestureRecognizer(tapGesture)
+        
     }
     
     @objc func keyboardWillShown(notification: Notification) {
@@ -75,6 +76,7 @@ class ViewController: UIViewController {
         
         if identifier == "LogInCorrectSegue" {
             if checkLoginInfo() {
+                animateLoadingBar()
                 return true
             }
             else {
@@ -96,7 +98,22 @@ class ViewController: UIViewController {
     
     
     @IBAction func LogInActionButton(_ sender: UIButton) {
+        animateLoadingBar()
     }
     
-}
+    // Реализация индикатора загрузки РАБОТАЕТ НЕПРАВИЛЬНО
     
+    @IBOutlet private var loadingBar: UIView!
+    
+    func animateLoadingBar () {
+        loadingBar.layer.cornerRadius = 10
+        loadingBar.layer.borderWidth = 2
+        loadingBar.layer.borderColor = UIColor.black.cgColor
+        loadingBar.layer.backgroundColor = UIColor.black.cgColor
+        UIView.animate(withDuration: 2 , delay: 3 , animations: {
+            self.loadingBar.alpha = 0
+        },
+                       completion: nil )
+    }
+}
+

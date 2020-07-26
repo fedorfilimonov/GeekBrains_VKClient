@@ -15,6 +15,7 @@
 		3214F4F624ADF6F600D2EB08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F424ADF6F600D2EB08 /* Main.storyboard */; };
 		3214F4F824ADF6F700D2EB08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F724ADF6F700D2EB08 /* Assets.xcassets */; };
 		3214F4FB24ADF6F700D2EB08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F924ADF6F700D2EB08 /* LaunchScreen.storyboard */; };
+		3260CB7524CD959F00DABF37 /* LoadingBarControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3260CB7424CD959F00DABF37 /* LoadingBarControl.swift */; };
 		327AC4E224C7394200FCFC9F /* PhotoLikesControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */; };
 		327AC4E424C73B1600FCFC9F /* FriendsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */; };
 		3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3288766124BC93E20087BFEA /* SmallProfilePicView.swift */; };
@@ -38,6 +39,7 @@
 		3214F4F724ADF6F700D2EB08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3214F4FA24ADF6F700D2EB08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3214F4FC24ADF6F700D2EB08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3260CB7424CD959F00DABF37 /* LoadingBarControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarControl.swift; sourceTree = "<group>"; };
 		327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikesControl.swift; sourceTree = "<group>"; };
 		327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRecord.swift; sourceTree = "<group>"; };
 		3288766124BC93E20087BFEA /* SmallProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallProfilePicView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				3299CBF124BDDF1F00ACF143 /* FriendPageViewController.swift */,
 				328E6D9624B906400088AFDC /* GroupsListViewController.swift */,
 				327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */,
+				3260CB7424CD959F00DABF37 /* LoadingBarControl.swift */,
 				327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */,
 				32ECAB2B24B8DE0C00393C45 /* FriendListCell.swift */,
 				3299CBF324BDE06700ACF143 /* FriendPageCell.swift */,
@@ -184,6 +187,7 @@
 				3214F4EF24ADF6F600D2EB08 /* AppDelegate.swift in Sources */,
 				3299CBF224BDDF1F00ACF143 /* FriendPageViewController.swift in Sources */,
 				3214F4F124ADF6F600D2EB08 /* SceneDelegate.swift in Sources */,
+				3260CB7524CD959F00DABF37 /* LoadingBarControl.swift in Sources */,
 				3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */,
 				3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */,
 				328E6D9924B906950088AFDC /* GroupListCell.swift in Sources */,
