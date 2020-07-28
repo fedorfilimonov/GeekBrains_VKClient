@@ -20,6 +20,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var loginActionButton: UIButton!
     
+    @IBOutlet private var loadingBar: UIView!
+    
+    @IBAction func LogInActionButton(_ sender: UIButton) {
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -30,6 +35,40 @@ class ViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         loginPageScrollView.addGestureRecognizer(tapGesture)
         
+    }
+    
+    // Реализация индикатора загрузки
+    var dot1: UIView = UIView()
+    var dot2: UIView = UIView()
+    var dot3: UIView = UIView()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initiateLoadingBar()
+        
+    }
+    
+    func initiateLoadingBar() {
+        dot1.frame = CGRect(x: (view.frame.width - 50) / 2, y: view.frame.height - 350, width: 10, height: 10)
+        dot1.backgroundColor = .black
+        dot1.layer.cornerRadius = dot1.bounds.width / 2
+        dot1.alpha = 0.5
+        
+        view.addSubview(dot1)
+        
+        dot2.frame = CGRect(x: (view.frame.width) / 2, y: view.frame.height - 350, width: 10, height: 10)
+        dot2.backgroundColor = .black
+        dot2.layer.cornerRadius = dot2.bounds.width / 2
+        dot2.alpha = 0.5
+        
+        view.addSubview(dot2)
+        
+        dot3.frame = CGRect(x: (view.frame.width - 25) / 2, y: view.frame.height - 350, width: 10, height: 10)
+        dot3.backgroundColor = .black
+        dot3.layer.cornerRadius = dot1.bounds.width / 2
+        dot3.alpha = 0.5
+        
+        view.addSubview(dot3)
     }
     
     @objc func keyboardWillShown(notification: Notification) {
@@ -63,28 +102,51 @@ class ViewController: UIViewController {
         guard let pwdText = passwordField.text else { return false }
         
         if loginText == "admin", pwdText == "12345" {
-            print("Успешно!")
+            print("Авторизация прошла успешно")
             return true
         }
         else {
-            print("Не очень успешно")
+            print("Авторизация не удалась")
             return false
         }
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    private func animateLoadingBar() -> Bool {
+        UIView.animate(withDuration: 1.8,
+                       delay: 1.0,
+                       options: [.repeat, .autoreverse],
+                       animations:
+            {self.dot1.alpha = 1})
         
+        UIView.animate(withDuration: 1.8,
+                       delay: 2.5,
+                       options: [.repeat, .autoreverse],
+                       animations:
+            {self.dot2.alpha = 1})
+        
+        UIView.animate(withDuration: 1.8,
+                       delay: 2.5,
+                       options: [.repeat, .autoreverse],
+                       animations:
+            {self.dot3.alpha = 1})
+        
+        return true
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+
         if identifier == "LogInCorrectSegue" {
             if checkLoginInfo() {
-                animateLoadingBar()
-                return true
+                if animateLoadingBar () {
+                    return true
+                }
             }
             else {
                 showLoginError()
                 return false
             }
         }
-        
+
         return true
     }
     
@@ -95,25 +157,4 @@ class ViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    @IBAction func LogInActionButton(_ sender: UIButton) {
-        animateLoadingBar()
-    }
-    
-    // Реализация индикатора загрузки РАБОТАЕТ НЕПРАВИЛЬНО
-    
-    @IBOutlet private var loadingBar: UIView!
-    
-    func animateLoadingBar () {
-        loadingBar.layer.cornerRadius = 10
-        loadingBar.layer.borderWidth = 2
-        loadingBar.layer.borderColor = UIColor.black.cgColor
-        loadingBar.layer.backgroundColor = UIColor.black.cgColor
-        UIView.animate(withDuration: 2 , delay: 3 , animations: {
-            self.loadingBar.alpha = 0
-        },
-                       completion: nil )
-    }
 }
-

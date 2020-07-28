@@ -64,7 +64,6 @@ extension FriendsListViewController: UITableViewDataSource {
         cell.userPic.avatarImage.image = friendRow[indexPath.row].friendPhoto[0].photoName
         
         return cell
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
