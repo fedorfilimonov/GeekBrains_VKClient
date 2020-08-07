@@ -9,7 +9,9 @@
 import UIKit
 
 class FriendsListViewController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView!
+    
     @IBOutlet weak var friendSearch: UISearchBar!
     
     var friendsIndex = [String]()
