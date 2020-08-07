@@ -11,7 +11,7 @@ import Foundation
 class Session {
     
     var token: String?
-    var userID: String?
+    var userId: Int?
     
     public static let shared = Session()
     private init(){}
