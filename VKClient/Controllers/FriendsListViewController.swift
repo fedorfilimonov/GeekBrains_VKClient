@@ -28,6 +28,9 @@ class FriendsListViewController: UIViewController {
                 friendsIndex.append(String(index.friendName.first!))
             }
         }
+        
+        NetworkService.shared.showUserFriendsList(token: Session.shared.token, userID: Session.shared.userId)
+        
     }
 }
 

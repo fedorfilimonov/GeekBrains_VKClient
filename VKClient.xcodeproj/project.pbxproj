@@ -19,6 +19,9 @@
 		322027CA24D0815300C1EDBD /* NewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322027C924D0815300C1EDBD /* NewsList.swift */; };
 		322027CC24D0850D00C1EDBD /* NewsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322027CB24D0850C00C1EDBD /* NewsListCell.swift */; };
 		322BD93824DD818A0021A69A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322BD93724DD818A0021A69A /* Session.swift */; };
+		32536CD224E42C2B0076454E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32536CD124E42C2B0076454E /* LoginController.swift */; };
+		32536CD524E42D0D0076454E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32536CD424E42D0D0076454E /* WebKit.framework */; };
+		32536CD724E42E300076454E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32536CD624E42E300076454E /* NetworkService.swift */; };
 		327AC4E224C7394200FCFC9F /* PhotoLikesControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */; };
 		327AC4E424C73B1600FCFC9F /* FriendsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */; };
 		3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3288766124BC93E20087BFEA /* SmallProfilePicView.swift */; };
@@ -46,6 +49,9 @@
 		322027C924D0815300C1EDBD /* NewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsList.swift; sourceTree = "<group>"; };
 		322027CB24D0850C00C1EDBD /* NewsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCell.swift; sourceTree = "<group>"; };
 		322BD93724DD818A0021A69A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		32536CD124E42C2B0076454E /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		32536CD424E42D0D0076454E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		32536CD624E42E300076454E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikesControl.swift; sourceTree = "<group>"; };
 		327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRecord.swift; sourceTree = "<group>"; };
 		3288766124BC93E20087BFEA /* SmallProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallProfilePicView.swift; sourceTree = "<group>"; };
@@ -63,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32536CD524E42D0D0076454E /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +81,7 @@
 			children = (
 				3214F4ED24ADF6F600D2EB08 /* VKClient */,
 				3214F4EC24ADF6F600D2EB08 /* Products */,
+				32536CD324E42D0D0076454E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,14 +98,15 @@
 			children = (
 				3214F4F424ADF6F600D2EB08 /* Main.storyboard */,
 				3214F4EE24ADF6F600D2EB08 /* AppDelegate.swift */,
-				322BD93324DD80450021A69A /* Controllers */,
 				3214F4F024ADF6F600D2EB08 /* SceneDelegate.swift */,
+				322BD93324DD80450021A69A /* Controllers */,
 				322BD93524DD80F30021A69A /* Cell */,
+				32536CD024E427310076454E /* Managers */,
 				322BD93624DD812B0021A69A /* Models */,
+				322BD93424DD809E0021A69A /* View */,
 				3214F4F724ADF6F700D2EB08 /* Assets.xcassets */,
 				3214F4F924ADF6F700D2EB08 /* LaunchScreen.storyboard */,
 				3214F4FC24ADF6F700D2EB08 /* Info.plist */,
-				322BD93424DD809E0021A69A /* View */,
 			);
 			path = VKClient;
 			sourceTree = "<group>";
@@ -106,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				3214F4F224ADF6F600D2EB08 /* ViewController.swift */,
+				32536CD124E42C2B0076454E /* LoginController.swift */,
 				32ECAB2724B8DC4800393C45 /* FriendsListViewController.swift */,
 				322027C724D079F200C1EDBD /* NewsPageViewController.swift */,
 				3299CBF124BDDF1F00ACF143 /* FriendPageViewController.swift */,
@@ -140,11 +150,27 @@
 			isa = PBXGroup;
 			children = (
 				327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */,
-				322BD93724DD818A0021A69A /* Session.swift */,
 				322027C924D0815300C1EDBD /* NewsList.swift */,
 				328E6D9A24B906DC0088AFDC /* GroupsListItem.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		32536CD024E427310076454E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				322BD93724DD818A0021A69A /* Session.swift */,
+				32536CD624E42E300076454E /* NetworkService.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		32536CD324E42D0D0076454E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32536CD424E42D0D0076454E /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32536CD224E42C2B0076454E /* LoginController.swift in Sources */,
 				322027C824D079F200C1EDBD /* NewsPageViewController.swift in Sources */,
 				327AC4E424C73B1600FCFC9F /* FriendsRecord.swift in Sources */,
 				328E6D9724B906400088AFDC /* GroupsListViewController.swift in Sources */,
@@ -230,6 +257,7 @@
 				322BD93824DD818A0021A69A /* Session.swift in Sources */,
 				3214F4EF24ADF6F600D2EB08 /* AppDelegate.swift in Sources */,
 				3299CBF224BDDF1F00ACF143 /* FriendPageViewController.swift in Sources */,
+				32536CD724E42E300076454E /* NetworkService.swift in Sources */,
 				3214F4F124ADF6F600D2EB08 /* SceneDelegate.swift in Sources */,
 				322027CA24D0815300C1EDBD /* NewsList.swift in Sources */,
 				3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */,

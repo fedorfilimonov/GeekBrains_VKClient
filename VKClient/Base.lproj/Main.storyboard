@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="p3N-nC-3vo">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -21,6 +21,7 @@
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fhv-f0-KRD">
                                         <rect key="frame" x="82" y="280" width="250" height="34"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -40,6 +41,7 @@
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="fZt-q7-VRN">
                                         <rect key="frame" x="82" y="210" width="250" height="34"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
@@ -81,7 +83,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
+            <point key="canvasLocation" x="132" y="139"/>
+        </scene>
+        <!--Login Controller-->
+        <scene sceneID="gHl-aL-hCe">
+            <objects>
+                <viewController id="p3N-nC-3vo" customClass="VKLoginController" customModule="VKClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8Ne-AT-gkl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxT-ck-j1l">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="xxT-ck-j1l" firstAttribute="top" secondItem="0bk-ax-1EN" secondAttribute="top" id="ObW-Bd-6WM"/>
+                            <constraint firstItem="xxT-ck-j1l" firstAttribute="leading" secondItem="0bk-ax-1EN" secondAttribute="leading" id="Uh3-pE-yl1"/>
+                            <constraint firstItem="0bk-ax-1EN" firstAttribute="trailing" secondItem="xxT-ck-j1l" secondAttribute="trailing" id="UpH-wb-lGO"/>
+                            <constraint firstItem="0bk-ax-1EN" firstAttribute="bottom" secondItem="xxT-ck-j1l" secondAttribute="bottom" id="as9-JP-oDw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0bk-ax-1EN"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="xxT-ck-j1l" id="ibV-iX-lVu"/>
+                        <segue destination="4vs-DP-CeX" kind="presentation" identifier="logInSegue" modalPresentationStyle="fullScreen" id="KhO-AY-Dfi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bzM-fV-2uw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="844"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="QDS-lt-8nb">
@@ -617,6 +654,9 @@
             <point key="canvasLocation" x="3416" y="435"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="KhO-AY-Dfi"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="loginPageLogo" width="130" height="130"/>

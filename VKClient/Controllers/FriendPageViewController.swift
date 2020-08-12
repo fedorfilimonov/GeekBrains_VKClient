@@ -17,6 +17,8 @@ class FriendPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
+        
+        NetworkService.shared.showUserPhotosList(token: Session.shared.token, userID: Session.shared.userId)
     }
 }
 

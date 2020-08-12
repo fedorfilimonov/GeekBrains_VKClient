@@ -19,6 +19,8 @@ class GroupsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        
+        NetworkService.shared.showUserGroupsList(token: Session.shared.token, userID: Session.shared.userId)
     }
 }
 
