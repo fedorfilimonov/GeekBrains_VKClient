@@ -20,7 +20,7 @@ class GroupsListViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         
-        NetworkService.shared.showUserGroupsList(token: Session.shared.token, userID: Session.shared.userId)
+        NetworkService.shared.getUserGroupsList(token: Session.shared.token, userID: Session.shared.userId)
     }
 }
 

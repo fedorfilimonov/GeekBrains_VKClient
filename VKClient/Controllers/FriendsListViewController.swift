@@ -15,6 +15,7 @@ class FriendsListViewController: UIViewController {
     @IBOutlet weak var friendSearch: UISearchBar!
     
     var friendsIndex = [String]()
+    var userInfo: UserFriendCodable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,30 +30,40 @@ class FriendsListViewController: UIViewController {
             }
         }
         
-        NetworkService.shared.showUserFriendsList(token: Session.shared.token, userID: Session.shared.userId)
-        
+        NetworkService.shared.getUserFriendsList(token: Session.shared.token, userID: Session.shared.userId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(userFriendsList):
+                self.userInfo = userFriendsList
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
 }
 
 extension FriendsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var friendRow = [FriendsRecord]()
-        for friend in workingFriendsListCatalogue {
-            if friendsIndex[section].contains(friend.friendName.first!) {
-                friendRow.append(friend)
-            }
-        }
-        return friendRow.count
+//        var friendRow = [FriendsRecord]()
+//        for friend in workingFriendsListCatalogue {
+//            if friendsIndex[section].contains(friend.friendName.first!) {
+//                friendRow.append(friend)
+//            }
+//        }
+        return 3
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return friendsIndex.count
+        return 1
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return friendsIndex[section]
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return friendsIndex[section]
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -65,8 +76,9 @@ extension FriendsListViewController: UITableViewDataSource {
             }
         }
         
-        cell.userName.text = friendRow[indexPath.row].friendName
-        cell.userPic.avatarImage.image = friendRow[indexPath.row].friendPhoto[0].photoName
+//        cell.userName.text = friendRow[indexPath.row].friendName
+        cell.userName.text = userInfo?.response.items[indexPath.row].firstName
+//        cell.userPic.avatarImage.image = friendRow[indexPath.row].friendPhoto[0].photoName
         
         return cell
     }
