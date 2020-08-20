@@ -11,11 +11,10 @@ import UIKit
 class FriendsListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var friendSearch: UISearchBar!
     
     var friendsIndex = [String]()
-    var userInfo: UserFriendCodable?
+    var friendsList = [UserFriendItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,17 +23,22 @@ class FriendsListViewController: UIViewController {
         tableView.register (UINib (nibName: "NameLetterView" , bundle: nil ), forCellReuseIdentifier: "NameLetterCell" )
         self.tableView.tableFooterView = UIView()
         
-        for index in workingFriendsListCatalogue {
-            if !friendsIndex.contains(String(index.friendName.first!)){
-                friendsIndex.append(String(index.friendName.first!))
-            }
-        }
-        
         NetworkService.shared.getUserFriendsList(token: Session.shared.token, userID: Session.shared.userId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(userFriendsList):
-                self.userInfo = userFriendsList
+                self.friendsList = userFriendsList.response.items
+                
+                self.friendsList.sort {
+                    $0.lastName < $1.lastName
+                }
+                
+                for index in self.friendsList {
+                    if !self.friendsIndex.contains(String(index.lastName.first!)){
+                        self.friendsIndex.append(String(index.lastName.first!))
+                    }
+                }
+
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -46,39 +50,47 @@ class FriendsListViewController: UIViewController {
 }
 
 extension FriendsListViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        var friendRow = [FriendsRecord]()
-//        for friend in workingFriendsListCatalogue {
-//            if friendsIndex[section].contains(friend.friendName.first!) {
-//                friendRow.append(friend)
-//            }
-//        }
-        return 3
+        var friendRow = [UserFriendItem]()
+        for friend in friendsList {
+            if friendsIndex[section].contains(friend.lastName.first!) {
+                friendRow.append(friend)
+            }
+        }
+        return friendRow.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return friendsIndex.count
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return friendsIndex[section]
-//    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return friendsIndex[section]
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as! FriendListCell
         
-        var friendRow = [FriendsRecord]()
-        for friend in workingFriendsListCatalogue {
-            if friendsIndex[indexPath.section].contains(friend.friendName.first!) {
+        var friendRow = [UserFriendItem]()
+        for friend in friendsList {
+            if friendsIndex[indexPath.section].contains(friend.lastName.first!) {
                 friendRow.append(friend)
             }
         }
         
-//        cell.userName.text = friendRow[indexPath.row].friendName
-        cell.userName.text = userInfo?.response.items[indexPath.row].firstName
-//        cell.userPic.avatarImage.image = friendRow[indexPath.row].friendPhoto[0].photoName
+        if let url = URL( string: friendRow[indexPath.row].photo_100)
+        {
+            DispatchQueue.global().async {
+                if let data = try? Data( contentsOf: url)
+                {
+                    DispatchQueue.main.async {
+                        cell.userName.text = friendRow[indexPath.row].firstName + " " + friendRow[indexPath.row].lastName
+                        cell.userPic.avatarImage.image = UIImage(data: data)
+                    }
+                }
+            }
+        }
         
         return cell
     }
@@ -105,20 +117,22 @@ extension FriendsListViewController: UITableViewDataSource {
 extension FriendsListViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        workingFriendsListCatalogue = searchText.isEmpty ? friendsListCatalogue : friendsListCatalogue.filter { (item: FriendsRecord) -> Bool in
-            return item.friendName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        var friendsListForSearch = friendsList
+        
+        friendsListForSearch = searchText.isEmpty ? friendsList : friendsList.filter { (item: UserFriendItem) -> Bool in
+            return item.lastName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
         
         friendsIndex = [String]()
         
-        for index in workingFriendsListCatalogue {
-            if !friendsIndex.contains(String(index.friendName.first!)){
-                friendsIndex.append(String(index.friendName.first!))
+        for index in friendsListForSearch {
+            if !friendsIndex.contains(String(index.lastName.first!)){
+                friendsIndex.append(String(index.lastName.first!))
             }
         }
         
-        workingFriendsListCatalogue.sort {
-            $0.friendName < $1.friendName
+        friendsListForSearch.sort {
+            $0.lastName < $1.lastName
         }
         
         friendsIndex.sort()

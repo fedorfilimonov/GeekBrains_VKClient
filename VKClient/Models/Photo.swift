@@ -6,8 +6,6 @@
 //  Copyright © 2020 fedorfilimonov. All rights reserved.
 //
 
-//   let photo = try? newJSONDecoder().decode(Photo.self, from: jsonData)
-
 import Foundation
 
 struct Photo: Codable {

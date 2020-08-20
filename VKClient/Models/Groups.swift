@@ -6,21 +6,18 @@
 //  Copyright © 2020 fedorfilimonov. All rights reserved.
 //
 
-
-//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
-
 import Foundation
 
-struct Group: Codable {
-    let response: GroupResponse
+struct UserGroupsCodable: Codable {
+    let response: UserGroupsResponse
 }
 
-struct GroupResponse: Codable {
+struct UserGroupsResponse: Codable {
     let count: Int
-    let items: [GroupItem]
+    let items: [UserGroupsItem]
 }
 
-struct GroupItem: Codable {
+struct UserGroupsItem: Codable {
     let id: Int
     let name, screenName: String
     let isClosed: Int

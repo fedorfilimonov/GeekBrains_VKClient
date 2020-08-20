@@ -30,7 +30,7 @@ class NetworkService {
             URLQueryItem(name: "user_id", value: userID),
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "photo_100"),
-            URLQueryItem(name: "count", value: "3"),
+            URLQueryItem(name: "count", value: "20"),
             URLQueryItem(name: "v", value: version),
         ]
         
@@ -43,7 +43,6 @@ class NetworkService {
             do {
                 let userFriendsList  = try JSONDecoder().decode(UserFriendCodable.self, from: data)
                 completion?(.success(userFriendsList))
-//                print(userFriendsList)
                 
             } catch {
                 print(error.localizedDescription)
@@ -54,7 +53,7 @@ class NetworkService {
         task.resume()
     }
     
-    func getUserGroupsList (token: String, userID: String) {
+    func getUserGroupsList (token: String, userID: String, completion: ((Swift.Result<UserGroupsCodable, Error>) -> Void)? = nil) {
         let configuration = URLSessionConfiguration.default
         let session =  URLSession(configuration: configuration)
         
@@ -66,23 +65,27 @@ class NetworkService {
             URLQueryItem(name: "access_token", value: token),
             URLQueryItem(name: "user_id", value: userID),
             URLQueryItem(name: "extended", value: "1"),
-            URLQueryItem(name: "fields", value: "name"),
-            URLQueryItem(name: "count", value: "3"),
+            URLQueryItem(name: "count", value: "20"),
             URLQueryItem(name: "v", value: version),
         ]
         
         guard let url = urlConstructor.url else { return }
         
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            if let data = data {
-                if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                    print(json)
-                }
-            } else if let error = error {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            guard let data = data else { return }
+            
+            do {
+                let userGroupsList  = try JSONDecoder().decode(UserGroupsCodable.self, from: data)
+                completion?(.success(userGroupsList))
+                
+            } catch {
                 print(error.localizedDescription)
+                completion?(.failure(error))
             }
         }
-        dataTask.resume()
+        
+        task.resume()
     }
     
     func getRequestedGroupsList (token: String) {

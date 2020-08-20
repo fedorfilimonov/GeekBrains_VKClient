@@ -9,42 +9,97 @@
 import UIKit
 
 class GroupsListViewController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView!
     
-    var groupsListCatalogue = [
-        GroupsListItem(groupName: "Group_Name_1", groupPic: UIImage(named: "groupPhoto_1")!),
-        GroupsListItem(groupName: "Group_Name_2", groupPic: UIImage(named: "groupPhoto_2")!)
-    ]
+    var groupsIndex = [String]()
+    var groupsList = [UserGroupsItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         
-        NetworkService.shared.getUserGroupsList(token: Session.shared.token, userID: Session.shared.userId)
+        tableView.register (UINib (nibName: "NameLetterView" , bundle: nil ), forCellReuseIdentifier: "NameLetterCell" )
+        self.tableView.tableFooterView = UIView()
+        
+        NetworkService.shared.getUserGroupsList(token: Session.shared.token, userID: Session.shared.userId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(userGroupsList):
+                self.groupsList = userGroupsList.response.items
+                
+                self.groupsList.sort {
+                    $0.name < $1.name
+                }
+                
+                for index in self.groupsList {
+                    if !self.groupsIndex.contains(String(index.name.first!)){
+                        self.groupsIndex.append(String(index.name.first!))
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
 }
 
 extension GroupsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groupsListCatalogue.count
+        var groupRow = [UserGroupsItem]()
+        for group in groupsList {
+            if groupsIndex[section].contains(group.name.first!) {
+                groupRow.append(group)
+            }
+        }
+        return groupRow.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return groupsIndex.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return groupsIndex[section]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupListCell") as? GroupListCell else { fatalError() }
         
-        cell.groupName.text = groupsListCatalogue[indexPath.row].groupName
-        cell.groupPic.image = groupsListCatalogue[indexPath.row].groupPic
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupListCell", for: indexPath) as! GroupListCell
         
-        print("Cell created for row: \(indexPath.row), \(groupsListCatalogue[indexPath.row])")
+        var groupRow = [UserGroupsItem]()
+        for group in groupsList {
+            if groupsIndex[indexPath.section].contains(group.name.first!) {
+                groupRow.append(group)
+            }
+        }
         
+        if let url = URL( string: groupRow[indexPath.row].photo100)
+        {
+            DispatchQueue.global().async {
+                if let data = try? Data( contentsOf: url)
+                {
+                    DispatchQueue.main.async {
+                        cell.groupName.text = groupRow[indexPath.row].name
+                        cell.groupPic.image = UIImage(data: data)
+                        
+                    }
+                }
+            }
+        }
+       
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            groupsListCatalogue.remove(at: indexPath.row)
+            groupsList.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
