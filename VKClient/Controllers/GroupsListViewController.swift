@@ -19,9 +19,6 @@ class GroupsListViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         
-        tableView.register (UINib (nibName: "NameLetterView" , bundle: nil ), forCellReuseIdentifier: "NameLetterCell" )
-        self.tableView.tableFooterView = UIView()
-        
         NetworkService.shared.getUserGroupsList(token: Session.shared.token, userID: Session.shared.userId) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -62,10 +59,6 @@ extension GroupsListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return groupsIndex.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return groupsIndex[section]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -30,7 +30,6 @@ class NetworkService {
             URLQueryItem(name: "user_id", value: userID),
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "photo_100"),
-            URLQueryItem(name: "count", value: "20"),
             URLQueryItem(name: "v", value: version),
         ]
         
@@ -114,7 +113,8 @@ class NetworkService {
         dataTask.resume()
     }
     
-    func getUserPhotosList (token: String, userID: String)  {
+    func getUserPhotosList (token: String, friendID: String, completion: ((Swift.Result<FriendPhotosCodable, Error>) -> Void)? = nil) {
+        
         let configuration = URLSessionConfiguration.default
         let session =  URLSession(configuration: configuration)
         
@@ -124,25 +124,29 @@ class NetworkService {
         urlConstructor.path = "/method/photos.get"
         urlConstructor.queryItems = [
             URLQueryItem(name: "access_token", value: token),
-            URLQueryItem(name: "user_id", value: userID),
-            URLQueryItem(name: "owner_id", value: userID),
-            URLQueryItem(name: "album_id", value: "wall"),
-            URLQueryItem(name: "extended", value: "1"),
+            URLQueryItem(name: "owner_id", value: friendID),
+            URLQueryItem(name: "album_id", value: "profile"),
             URLQueryItem(name: "count", value: "3"),
             URLQueryItem(name: "v", value: version),
         ]
         
         guard let url = urlConstructor.url else { return }
         
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            if let data = data {
-                if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                    print(json)
-                }
-            } else if let error = error {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            guard let data = data else { return }
+            
+            do {
+                let userPhotosList  = try JSONDecoder().decode(FriendPhotosCodable.self, from: data)
+                completion?(.success(userPhotosList))
+                print(userPhotosList)
+                
+            } catch {
                 print(error.localizedDescription)
+                completion?(.failure(error))
             }
         }
-        dataTask.resume()
+        
+        task.resume()
     }
 }

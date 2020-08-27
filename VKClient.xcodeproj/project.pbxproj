@@ -23,6 +23,7 @@
 		32536CD224E42C2B0076454E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32536CD124E42C2B0076454E /* LoginController.swift */; };
 		32536CD524E42D0D0076454E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32536CD424E42D0D0076454E /* WebKit.framework */; };
 		32536CD724E42E300076454E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32536CD624E42E300076454E /* NetworkService.swift */; };
+		32569AC824F7E80A00AF143E /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32569AC724F7E80A00AF143E /* RealmManager.swift */; };
 		327AC4E224C7394200FCFC9F /* PhotoLikesControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */; };
 		327AC4E424C73B1600FCFC9F /* FriendsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */; };
 		3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3288766124BC93E20087BFEA /* SmallProfilePicView.swift */; };
@@ -31,9 +32,8 @@
 		328E6D9B24B906DC0088AFDC /* GroupsListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E6D9A24B906DC0088AFDC /* GroupsListItem.swift */; };
 		3299CBF224BDDF1F00ACF143 /* FriendPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299CBF124BDDF1F00ACF143 /* FriendPageViewController.swift */; };
 		3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299CBF324BDE06700ACF143 /* FriendPageCell.swift */; };
-		32D0F3E424E7B6CC005415EA /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E324E7B6CC005415EA /* Friend.swift */; };
-		32D0F3E624E7B700005415EA /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E524E7B700005415EA /* Photo.swift */; };
-		32D0F3E824E7B70D005415EA /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E724E7B70D005415EA /* Groups.swift */; };
+		32D0F3E624E7B700005415EA /* PhotoRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E524E7B700005415EA /* PhotoRealm.swift */; };
+		32D0F3E824E7B70D005415EA /* GroupsRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E724E7B70D005415EA /* GroupsRealm.swift */; };
 		32ECAB2824B8DC4800393C45 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAB2724B8DC4800393C45 /* FriendsListViewController.swift */; };
 		32ECAB2C24B8DE0C00393C45 /* FriendListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAB2B24B8DE0C00393C45 /* FriendListCell.swift */; };
 		5A8799815998E2BB513C035C /* Pods_VKClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80253F010D6FEC2A385F0743 /* Pods_VKClient.framework */; };
@@ -60,6 +60,7 @@
 		32536CD124E42C2B0076454E /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		32536CD424E42D0D0076454E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		32536CD624E42E300076454E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		32569AC724F7E80A00AF143E /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikesControl.swift; sourceTree = "<group>"; };
 		327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRecord.swift; sourceTree = "<group>"; };
 		3288766124BC93E20087BFEA /* SmallProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallProfilePicView.swift; sourceTree = "<group>"; };
@@ -68,9 +69,8 @@
 		328E6D9A24B906DC0088AFDC /* GroupsListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsListItem.swift; sourceTree = "<group>"; };
 		3299CBF124BDDF1F00ACF143 /* FriendPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPageViewController.swift; sourceTree = "<group>"; };
 		3299CBF324BDE06700ACF143 /* FriendPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPageCell.swift; sourceTree = "<group>"; };
-		32D0F3E324E7B6CC005415EA /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
-		32D0F3E524E7B700005415EA /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		32D0F3E724E7B70D005415EA /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
+		32D0F3E524E7B700005415EA /* PhotoRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRealm.swift; sourceTree = "<group>"; };
+		32D0F3E724E7B70D005415EA /* GroupsRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealm.swift; sourceTree = "<group>"; };
 		32ECAB2724B8DC4800393C45 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		32ECAB2B24B8DE0C00393C45 /* FriendListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListCell.swift; sourceTree = "<group>"; };
 		80253F010D6FEC2A385F0743 /* Pods_VKClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VKClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,10 +164,9 @@
 				327AC4E324C73B1600FCFC9F /* FriendsRecord.swift */,
 				322027C924D0815300C1EDBD /* NewsList.swift */,
 				328E6D9A24B906DC0088AFDC /* GroupsListItem.swift */,
-				32D0F3E324E7B6CC005415EA /* Friend.swift */,
 				322E002B24EE9A83000A35D9 /* FriendRealm.swift */,
-				32D0F3E524E7B700005415EA /* Photo.swift */,
-				32D0F3E724E7B70D005415EA /* Groups.swift */,
+				32D0F3E524E7B700005415EA /* PhotoRealm.swift */,
+				32D0F3E724E7B70D005415EA /* GroupsRealm.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -177,6 +176,7 @@
 			children = (
 				322BD93724DD818A0021A69A /* Session.swift */,
 				32536CD624E42E300076454E /* NetworkService.swift */,
+				32569AC724F7E80A00AF143E /* RealmManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -238,7 +238,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = fedorfilimonov;
 				TargetAttributes = {
 					3214F4EA24ADF6F600D2EB08 = {
@@ -341,13 +341,13 @@
 				322027CA24D0815300C1EDBD /* NewsList.swift in Sources */,
 				3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */,
 				3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */,
+				32569AC824F7E80A00AF143E /* RealmManager.swift in Sources */,
 				328E6D9924B906950088AFDC /* GroupListCell.swift in Sources */,
-				32D0F3E624E7B700005415EA /* Photo.swift in Sources */,
-				32D0F3E824E7B70D005415EA /* Groups.swift in Sources */,
+				32D0F3E624E7B700005415EA /* PhotoRealm.swift in Sources */,
+				32D0F3E824E7B70D005415EA /* GroupsRealm.swift in Sources */,
 				327AC4E224C7394200FCFC9F /* PhotoLikesControl.swift in Sources */,
 				322E002C24EE9A83000A35D9 /* FriendRealm.swift in Sources */,
 				3212E75E24CB15FA0034E03B /* NameLetterCellView.swift in Sources */,
-				32D0F3E424E7B6CC005415EA /* Friend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +399,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -459,6 +460,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
