@@ -126,7 +126,8 @@ class NetworkService {
             URLQueryItem(name: "access_token", value: token),
             URLQueryItem(name: "owner_id", value: friendID),
             URLQueryItem(name: "album_id", value: "profile"),
-            URLQueryItem(name: "count", value: "3"),
+            URLQueryItem(name: "photo_sizes", value: "0"),
+            URLQueryItem(name: "count", value: "50"),
             URLQueryItem(name: "v", value: version),
         ]
         

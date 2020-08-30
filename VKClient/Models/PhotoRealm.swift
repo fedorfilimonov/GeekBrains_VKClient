@@ -24,7 +24,6 @@ class FriendPhotosItem: Object, Codable {
     var id = RealmOptional<Int>()
     var ownerID = RealmOptional<Int>()
     var hasTags = RealmOptional<Bool>()
-    var postID = RealmOptional<Int>()
     var sizes = List<FriendPhotosSize>()
     @objc dynamic var text: String? = nil
 
@@ -33,7 +32,6 @@ class FriendPhotosItem: Object, Codable {
         case date, id
         case ownerID = "owner_id"
         case hasTags = "has_tags"
-        case postID = "post_id"
         case sizes, text
     }
 }
