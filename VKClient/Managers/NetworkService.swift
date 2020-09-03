@@ -19,7 +19,8 @@ class NetworkService {
     
     func getUserFriendsList (token: String, userID: String, completion: ((Swift.Result<UserFriendCodable, Error>) -> Void)? = nil) {
         let configuration = URLSessionConfiguration.default
-        let session =  URLSession(configuration: configuration)
+//        let session =  URLSession(configuration: configuration)
+        let _ =  URLSession(configuration: configuration)
         
         var urlConstructor = URLComponents()
         urlConstructor.scheme = scheme
@@ -54,7 +55,8 @@ class NetworkService {
     
     func getUserGroupsList (token: String, userID: String, completion: ((Swift.Result<UserGroupsCodable, Error>) -> Void)? = nil) {
         let configuration = URLSessionConfiguration.default
-        let session =  URLSession(configuration: configuration)
+//        let session =  URLSession(configuration: configuration)
+        let _ =  URLSession(configuration: configuration)
         
         var urlConstructor = URLComponents()
         urlConstructor.scheme = scheme
@@ -116,7 +118,8 @@ class NetworkService {
     func getUserPhotosList (token: String, friendID: String, completion: ((Swift.Result<FriendPhotosCodable, Error>) -> Void)? = nil) {
         
         let configuration = URLSessionConfiguration.default
-        let session =  URLSession(configuration: configuration)
+//        let session =  URLSession(configuration: configuration)
+        let _ =  URLSession(configuration: configuration)
         
         var urlConstructor = URLComponents()
         urlConstructor.scheme = scheme

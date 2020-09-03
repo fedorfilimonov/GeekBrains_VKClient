@@ -120,7 +120,6 @@ class GroupsListViewController: UIViewController {
                 DispatchQueue.main.async {
                     let userGroupsListArray = userGroupsList.response.items
                     try? self?.realmManager?.add(objects: userGroupsListArray)
-                    self?.tableView.reloadData()
                     completion?()
                 }
                 

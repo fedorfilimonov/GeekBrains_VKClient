@@ -122,7 +122,6 @@ class FriendsListViewController: UIViewController {
                 DispatchQueue.main.async {
                     let userFriendsListArray = userFriendsList.response.items
                     try? self?.realmManager?.add(objects: userFriendsListArray)
-                    self?.tableView.reloadData()
                     completion?()
                 }
                 
