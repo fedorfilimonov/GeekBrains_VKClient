@@ -162,10 +162,14 @@ public:
         return m_target_column.get_column_key();
     }
 
+    template <class T>
+    static bool type_supported()
+    {
+        return realm::is_any<T, int64_t, int, StringData, bool, Timestamp>::value;
+    }
     static bool type_supported(realm::DataType type)
     {
-        return (type == type_Int || type == type_String || type == type_Bool || type == type_Timestamp ||
-                type == type_ObjectId);
+        return (type == type_Int || type == type_String || type == type_Bool || type == type_Timestamp);
     }
 
     static ref_type create_empty(Allocator& alloc);
@@ -221,6 +225,9 @@ public:
     template <class T>
     void verify_entries(const ClusterColumn& column) const;
     void do_dump_node_structure(std::ostream&, int) const;
+    void to_dot() const;
+    void to_dot(std::ostream&, StringData title = StringData()) const;
+    void to_dot_2(std::ostream&, StringData title = StringData()) const;
 #endif
 
     typedef int32_t key_type;
@@ -306,6 +313,8 @@ private:
 
 #ifdef REALM_DEBUG
     static void dump_node_structure(const Array& node, std::ostream&, int level);
+    static void array_to_dot(std::ostream&, const Array&);
+    static void keys_to_dot(std::ostream&, const Array&, StringData title = StringData());
 #endif
 };
 
@@ -331,13 +340,7 @@ private:
 // Implementation:
 
 template <class T>
-struct GetIndexData {
-    static StringData get_index_data(Mixed, StringConversionBuffer&)
-    {
-        REALM_ASSERT_RELEASE(false); // LCOV_EXCL_LINE; Index not supported
-        return {};
-    }
-};
+struct GetIndexData;
 
 template <>
 struct GetIndexData<Timestamp> {
@@ -392,11 +395,29 @@ struct GetIndexData<util::Optional<T>> {
 };
 
 template <>
-struct GetIndexData<ObjectId> {
-    static StringData get_index_data(ObjectId value, StringConversionBuffer& buffer)
+struct GetIndexData<float> {
+    static StringData get_index_data(float, StringConversionBuffer&)
     {
-        memcpy(&buffer, &value, sizeof(ObjectId));
-        return StringData{buffer.data(), sizeof(ObjectId)};
+        REALM_ASSERT_RELEASE(false); // LCOV_EXCL_LINE; Index on float not supported
+        return {};
+    }
+};
+
+template <>
+struct GetIndexData<double> {
+    static StringData get_index_data(double, StringConversionBuffer&)
+    {
+        REALM_ASSERT_RELEASE(false); // LCOV_EXCL_LINE; Index on float not supported
+        return {};
+    }
+};
+
+template <>
+struct GetIndexData<BinaryData> {
+    static StringData get_index_data(BinaryData, StringConversionBuffer&)
+    {
+        REALM_ASSERT_RELEASE(false); // LCOV_EXCL_LINE; Index on float not supported
+        return {};
     }
 };
 

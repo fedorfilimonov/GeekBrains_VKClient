@@ -26,8 +26,8 @@ extension FriendsListViewController: UITableViewDataSource, UITableViewDelegate 
                 if let data = try? Data( contentsOf: url)
                 {
                     DispatchQueue.main.async {
-                        let lastName = self.filteredUsers?[indexPath.row].last_name ?? " "
-                        let firstName = self.filteredUsers?[indexPath.row].first_name ?? " "
+                        let lastName = self.filteredUsers?[indexPath.row].last_name ?? "Last Name"
+                        let firstName = self.filteredUsers?[indexPath.row].first_name ?? "First Name"
                         let image = UIImage(data: data)
                         
                         cell.userName.text = lastName + " " + firstName

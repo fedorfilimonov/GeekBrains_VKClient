@@ -22,7 +22,7 @@ source_root="$(dirname "$0")"
 
 : ${REALM_SYNC_VERSION:=$(sed -n 's/^REALM_SYNC_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
 
-: ${REALM_OBJECT_SERVER_VERSION:=$(sed -n 's/^REALM_OBJECT_SERVER_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
+: ${REALM_OBJECT_SERVER_VERSION:=$(sed -n 's/^MONGODB_STITCH_ADMIN_SDK_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
 
 # You can override the xcmode used
 : ${XCMODE:=xcodebuild} # must be one of: xcodebuild (default), xcpretty, xctool
@@ -316,61 +316,18 @@ fi
 # Downloading
 ######################################
 
-copy_core() {
-    local src="$1"
-    if [ -d .git ]; then
-        git clean -xfdq core
-    else
-        rm -r core
-        mkdir core
-    fi
-    ditto "$src" core
-}
-
 download_common() {
-    local download_type="$1" tries_left=3 version url error kind suffix
-
-    if [ "$2" = xcframework ]; then
-        kind='-xcframework'
-        suffix='-xcframework'
-    else
-        kind='-cocoa'
-        suffix=''
-    fi
+    local download_type=$1 tries_left=3 version url error temp_dir temp_path tar_path
 
     if [ "$download_type" == "core" ]; then
         version=$REALM_CORE_VERSION
-        url="${REALM_BASE_URL}/core/realm-core${kind}-${version}.tar.xz"
+        url="${REALM_BASE_URL}/core/realm-core-${version}.tar.xz"
     elif [ "$download_type" == "sync" ]; then
         version=$REALM_SYNC_VERSION
-        url="${REALM_BASE_URL}/sync/realm-sync${kind}-${version}.tar.xz"
+        url="${REALM_BASE_URL}/sync/realm-sync-cocoa-${version}.tar.xz"
     else
         echo "Unknown dowload_type: $download_type"
         exit 1
-    fi
-
-    # First check if we need to do anything
-    if [ -e core/version.txt ]; then
-        if [ "$(cat core/version.txt)" == "$version" ]; then
-            echo "Version ${version} already present"
-            exit 0
-        else
-            echo "Switching from version $(cat core/version.txt) to ${version}"
-        fi
-    else
-        if [ "$(find core -name librealm.a)" ]; then
-            echo 'Using existing custom core build without checking version'
-            exit 0
-        fi
-    fi
-
-    # We may already have this version downloaded and just need to set it as
-    # the active one
-    local versioned_dir="${download_type}-${version}${suffix}"
-    if [ -e "$versioned_dir/version.txt" ]; then
-        echo "Setting ${version} as the active version"
-        copy_core "$versioned_dir${suffix}"
-        exit 0
     fi
 
     echo "Downloading dependency: ${download_type} ${version} from ${url}"
@@ -378,10 +335,10 @@ download_common() {
     if [ -z "$TMPDIR" ]; then
         TMPDIR='/tmp'
     fi
-    local temp_dir=$(dirname "$TMPDIR/waste")/realm-${download_type}-tmp
+    temp_dir=$(dirname "$TMPDIR/waste")/${download_type}_bin
     mkdir -p "$temp_dir"
-    local tar_path="${temp_dir}/${versioned_dir}.tar.xz"
-    local temp_path="${tar_path}.tmp"
+    tar_path="${temp_dir}/${download_type}-${version}.tar.xz"
+    temp_path="${tar_path}.tmp"
 
     while [ 0 -lt $tries_left ] && [ ! -f "$tar_path" ]; do
         if ! error=$(/usr/bin/curl --fail --silent --show-error --location "$url" --output "$temp_path" 2>&1); then
@@ -400,15 +357,20 @@ download_common() {
         cd "$temp_dir"
         rm -rf "$download_type"
         tar xf "$tar_path" --xz
-        if [ ! -f core/version.txt ]; then
-            printf %s "${version}" > core/version.txt
-        fi
-        mv core "${versioned_dir}"
+        mv core "${download_type}-${version}"
     )
 
-    rm -rf "${versioned_dir}"
-    mv "${temp_dir}/${versioned_dir}" .
-    copy_core "$versioned_dir"
+    rm -rf "${download_type}-${version}" core
+    mv "${temp_dir}/${download_type}-${version}" .
+    ln -s "${download_type}-${version}" core
+}
+
+download_core() {
+    download_common "core"
+}
+
+download_sync() {
+    download_common "sync"
 }
 
 ######################################
@@ -450,7 +412,31 @@ case "$COMMAND" in
     # Core
     ######################################
     "download-core")
-        download_common "core" "$2"
+        if [ "$REALM_CORE_VERSION" = "current" ]; then
+            echo "Using version of core already in core/ directory"
+            exit 0
+        fi
+        if [ -d core -a -d ../realm-core -a ! -L core ]; then
+          # Allow newer versions than expected for local builds as testing
+          # with unreleased versions is one of the reasons to use a local build
+          if ! $(grep -i "${REALM_CORE_VERSION} Release notes" core/release_notes.txt >/dev/null); then
+              echo "Local build of core is out of date."
+              exit 1
+          else
+              echo "The core library seems to be up to date."
+          fi
+        elif ! [ -L core ]; then
+            echo "core is not a symlink. Deleting..."
+            rm -rf core
+            download_core
+        # With a prebuilt version we only want to check the first non-empty
+        # line so that checking out an older commit will download the
+        # appropriate version of core if the already-present version is too new
+        elif ! $(grep -m 1 . core/release_notes.txt | grep -i "${REALM_CORE_VERSION} RELEASE NOTES" >/dev/null); then
+            download_core
+        else
+            echo "The core library seems to be up to date."
+        fi
         exit 0
         ;;
 
@@ -458,7 +444,21 @@ case "$COMMAND" in
     # Sync
     ######################################
     "download-sync")
-        download_common "sync" "$2"
+        if [ "$REALM_SYNC_VERSION" = "current" ]; then
+            echo "Using version of core already in core/ directory"
+            exit 0
+        fi
+        if [ -d core -a -d ../realm-core -a -d ../realm-sync -a ! -L core ]; then
+          echo "Using version of core already in core/ directory"
+        elif ! [ -L core ]; then
+            echo "core is not a symlink. Deleting..."
+            rm -rf core
+            download_sync
+        elif [[ "$(cat core/version.txt)" != "$REALM_SYNC_VERSION" ]]; then
+            download_sync
+        else
+            echo "The core library seems to be up to date."
+        fi
         exit 0
         ;;
 
@@ -551,27 +551,36 @@ case "$COMMAND" in
         xc "-scheme 'RealmSwift' -configuration $CONFIGURATION build"
         destination="build/osx/swift-$REALM_XCODE_VERSION"
         clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION/RealmSwift.framework" "$destination" "RealmSwift.framework"
-        clean_retrieve "build/osx/Realm.framework" "$destination" "Realm.framework"
+        rm -rf "$destination/Realm.framework"
+        cp -R build/osx/Realm.framework "$destination"
         exit 0
         ;;
 
     "catalyst")
-        export REALM_SDKROOT=iphoneos
-        xc "-scheme Realm -configuration $CONFIGURATION -destination variant='Mac Catalyst'"
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION-maccatalyst/Realm.framework" "build/catalyst" "Realm.framework"
+        xc "-scheme Realm -configuration $CONFIGURATION \
+            REALM_CATALYST_FLAGS='-target x86_64-apple-ios13.0-macabi' \
+            REALM_PLATFORM_SUFFIX='maccatalyst' \
+            IS_MACCATALYST=YES"
+        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION/Realm.framework" "build/catalyst" "Realm.framework"
         ;;
 
     "catalyst-swift")
         sh build.sh catalyst
-        export REALM_SDKROOT=iphoneos
-        xc "-scheme 'RealmSwift' -configuration $CONFIGURATION -destination variant='Mac Catalyst' build"
+        # FIXME: change this to just "-destination variant='Mac Catalyst'" once the CI machines are running 10.15
+        xc "-scheme 'RealmSwift' -configuration $CONFIGURATION build \
+            REALM_CATALYST_FLAGS='-target x86_64-apple-ios13.0-macabi' \
+            REALM_PLATFORM_SUFFIX='maccatalyst' \
+            SWIFT_DEPLOYMENT_TARGET='13.0-macabi' \
+            SWIFT_PLATFORM_TARGET_PREFIX='ios' \
+            IS_MACCATALYST=YES"
         destination="build/catalyst/swift-$REALM_XCODE_VERSION"
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION-maccatalyst/RealmSwift.framework" "$destination" "RealmSwift.framework"
-        clean_retrieve "build/catalyst/Realm.framework" "$destination" "Realm.framework"
+        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION/RealmSwift.framework" "$destination" "RealmSwift.framework"
+        rm -rf "$destination/Realm.framework"
+        cp -R build/catalyst/Realm.framework "$destination"
         ;;
 
     "xcframework")
-        export REALM_EXTRA_BUILD_ARGUMENTS="$REALM_EXTRA_BUILD_ARGUMENTS BUILD_LIBRARY_FOR_DISTRIBUTION=YES REALM_OBJC_MACH_O_TYPE=staticlib OTHER_LDFLAGS=-ObjC"
+        export REALM_EXTRA_BUILD_ARGUMENTS="$REALM_EXTRA_BUILD_ARGUMENTS BUILD_LIBRARY_FOR_DISTRIBUTION=YES REALM_OBJC_MACH_O_TYPE=staticlib"
 
         # Build all of the requested frameworks
         shift
@@ -1208,32 +1217,46 @@ EOM
             exit 1
           fi
 
-          if [ ! -f core/version.txt ]; then
+          if [ ! -d core ]; then
             sh build.sh download-sync
+            rm core
+            mv sync-* core
             mv core/librealm-ios.a core/librealmcore-ios.a
             mv core/librealm-macosx.a core/librealmcore-macosx.a
             mv core/librealm-tvos.a core/librealmcore-tvos.a
             mv core/librealm-watchos.a core/librealmcore-watchos.a
-            rm core/librealm*-dbg.a
           fi
 
           rm -rf include
           mkdir -p include
           mv core/include include/core
+          cp Realm/ObjectStore/external/json/json.hpp include/core
 
-          mkdir -p include/impl/apple include/util/apple include/sync/impl/apple
+          mkdir -p include/impl/apple include/util/apple include/sync/impl/apple include/util/bson
           cp Realm/*.hpp include
           cp Realm/ObjectStore/src/*.hpp include
+          cp Realm/ObjectStore/src/impl/*.hpp include/impl
+          cp Realm/ObjectStore/src/impl/apple/*.hpp include/impl/apple
           cp Realm/ObjectStore/src/sync/*.hpp include/sync
           cp Realm/ObjectStore/src/sync/impl/*.hpp include/sync/impl
           cp Realm/ObjectStore/src/sync/impl/apple/*.hpp include/sync/impl/apple
-          cp Realm/ObjectStore/src/impl/*.hpp include/impl
-          cp Realm/ObjectStore/src/impl/apple/*.hpp include/impl/apple
           cp Realm/ObjectStore/src/util/*.hpp include/util
           cp Realm/ObjectStore/src/util/apple/*.hpp include/util/apple
+	  cp Realm/ObjectStore/src/util/bson/*.hpp include/util/bson
 
           echo '' > Realm/RLMPlatform.h
-          cp Realm/*.h include
+          if [ -n "$COCOAPODS_VERSION" ]; then
+            # This variable is set for the prepare_command available
+            # from the 1.0 prereleases, which requires a different
+            # header layout within the header_mappings_dir.
+            cp Realm/*.h include
+          else
+            # For CocoaPods < 1.0, we need to scope the headers within
+            # the header_mappings_dir by another subdirectory to avoid
+            # Clang from complaining about non-modular headers.
+            mkdir -p include/Realm
+            cp Realm/*.h include/Realm
+          fi
         else
           sh build.sh set-swift-version
         fi
@@ -1519,9 +1542,8 @@ x.y.z Release notes (yyyy-MM-dd)
 <!-- ### Breaking Changes - ONLY INCLUDE FOR NEW MAJOR version -->
 
 ### Compatibility
-* File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
+* Realm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 

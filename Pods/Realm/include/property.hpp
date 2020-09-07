@@ -32,9 +32,7 @@ namespace util {
     template<typename> class Optional;
 }
 class BinaryData;
-class Decimal128;
 class Obj;
-class ObjectId;
 class StringData;
 class Table;
 class Timestamp;
@@ -52,9 +50,6 @@ enum class PropertyType : unsigned char {
 
     // deprecated and remains only for reading old files
     Any    = 9,
-
-    ObjectId = 10,
-    Decimal = 11,
 
     // Flags which can be combined with any of the above types except as noted
     Required  = 0,
@@ -106,7 +101,7 @@ struct Property {
     Property& operator=(Property const&) = default;
     Property& operator=(Property&&) noexcept = default;
 
-    bool requires_index() const { return is_indexed && !is_primary; }
+    bool requires_index() const { return is_primary || is_indexed; }
 
     bool type_is_indexable() const noexcept;
     bool type_is_nullable() const noexcept;
@@ -178,6 +173,19 @@ inline constexpr bool is_nullable(PropertyType a)
     return to_underlying(a & PropertyType::Nullable) == to_underlying(PropertyType::Nullable);
 }
 
+// Some of the places we use switch_on_type() the Obj version isn't instantiatable
+// or reachable, so we want to map it to a valid type to let the unreachable code compile
+template<typename T>
+struct NonObjType {
+    using type = std::remove_reference_t<T>;
+};
+template<>
+struct NonObjType<Obj&> {
+    using type = int64_t;
+};
+template<typename T>
+using NonObjTypeT = typename NonObjType<T>::type;
+
 template<typename ObjType=Obj, typename Fn>
 static auto switch_on_type(PropertyType type, Fn&& fn)
 {
@@ -192,8 +200,6 @@ static auto switch_on_type(PropertyType type, Fn&& fn)
         case PT::Data:   return fn((BinaryData*)0);
         case PT::Date:   return fn((Timestamp*)0);
         case PT::Object: return fn((ObjType*)0);
-        case PT::ObjectId: return is_optional ? fn((util::Optional<ObjectId>*)0) : fn((ObjectId*)0);
-        case PT::Decimal: return fn((Decimal128*)0);
         default: REALM_COMPILER_HINT_UNREACHABLE();
     }
 }
@@ -216,8 +222,6 @@ static const char *string_for_property_type(PropertyType type)
         case PropertyType::Object: return "object";
         case PropertyType::Any: return "any";
         case PropertyType::LinkingObjects: return "linking objects";
-        case PropertyType::ObjectId: return "object id";
-        case PropertyType::Decimal: return "decimal";
         default: REALM_COMPILER_HINT_UNREACHABLE();
     }
 }
@@ -250,8 +254,7 @@ inline bool Property::type_is_indexable() const noexcept
     return type == PropertyType::Int
         || type == PropertyType::Bool
         || type == PropertyType::Date
-        || type == PropertyType::String
-        || type == PropertyType::ObjectId;
+        || type == PropertyType::String;
 }
 
 inline bool Property::type_is_nullable() const noexcept

@@ -58,7 +58,7 @@ extension Realm {
 
          - parameter fileURL:            The local URL to the Realm file.
          - parameter inMemoryIdentifier: A string used to identify a particular in-memory Realm.
-         - parameter syncConfiguration:  For Realms intended to sync with MongoDB Realm, a sync configuration.
+         - parameter syncConfiguration:  For Realms intended to sync with the Realm Object Server, a sync configuration.
          - parameter encryptionKey:      An optional 64-byte key to use to encrypt the data.
          - parameter readOnly:           Whether the Realm is read-only (must be true for read-only files).
          - parameter schemaVersion:      The current schema version.
@@ -103,16 +103,16 @@ extension Realm {
         // MARK: Configuration Properties
 
         /**
-         A configuration value used to configure a Realm for synchronization with MongoDB Realm. Mutually
+         A configuration value used to configure a Realm for synchronization with the Realm Object Server. Mutually
          exclusive with `inMemoryIdentifier`.
          */
         public var syncConfiguration: SyncConfiguration? {
+            get {
+                return _syncConfiguration
+            }
             set {
                 _inMemoryIdentifier = nil
                 _syncConfiguration = newValue
-            }
-            get {
-                return _syncConfiguration
             }
         }
 
@@ -120,12 +120,12 @@ extension Realm {
 
         /// The local URL of the Realm file. Mutually exclusive with `inMemoryIdentifier`.
         public var fileURL: URL? {
+            get {
+                return _path.map { URL(fileURLWithPath: $0) }
+            }
             set {
                 _inMemoryIdentifier = nil
                 _path = newValue?.path
-            }
-            get {
-                return _path.map { URL(fileURLWithPath: $0) }
             }
         }
 
@@ -134,13 +134,13 @@ extension Realm {
         /// A string used to identify a particular in-memory Realm. Mutually exclusive with `fileURL` and
         /// `syncConfiguration`.
         public var inMemoryIdentifier: String? {
+            get {
+                return _inMemoryIdentifier
+            }
             set {
                 _path = nil
                 _syncConfiguration = nil
                 _inMemoryIdentifier = newValue
-            }
-            get {
-                return _inMemoryIdentifier
             }
         }
 
@@ -199,11 +199,11 @@ extension Realm {
 
         /// The classes managed by the Realm.
         public var objectTypes: [Object.Type]? {
-            set {
-                self.customSchema = newValue.map { RLMSchema(objectClasses: $0) }
-            }
             get {
                 return self.customSchema.map { $0.objectSchema.compactMap { $0.objectClass as? Object.Type } }
+            }
+            set {
+                self.customSchema = newValue.map { RLMSchema(objectClasses: $0) }
             }
         }
         /**
