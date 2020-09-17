@@ -24,6 +24,8 @@
 #include "results.hpp"
 #include "shared_realm.hpp"
 
+#include "impl/realm_coordinator.hpp"
+
 #include <realm/db.hpp>
 #include <realm/keys.hpp>
 
@@ -33,6 +35,7 @@ public:
     virtual ~Payload() = default;
     Payload(Realm& realm)
     : m_transaction(realm.is_in_read_transaction() ? realm.duplicate() : nullptr)
+    , m_coordinator(Realm::Internal::get_coordinator(realm).shared_from_this())
     , m_created_in_write_transaction(realm.is_in_transaction())
     {
     }
@@ -43,7 +46,7 @@ protected:
     const TransactionRef m_transaction;
 
 private:
-    const VersionID m_target_version;
+    const std::shared_ptr<_impl::RealmCoordinator> m_coordinator;
     const bool m_created_in_write_transaction;
 };
 
@@ -152,12 +155,12 @@ public:
             try {
                 list = table->get_object(m_key).get_listbase_ptr(m_col_key);
             }
-            catch (KeyNotFound const&) {
+            catch (InvalidKey const&) {
                 // Create a detached list of the appropriate type so that we
                 // return an invalid Results rather than an Empty Results, to
                 // match what happens for other types of handover where the
                 // object doesn't exist.
-                switch_on_type(ObjectSchema::from_core_type(m_col_key), [&](auto* t) -> void {
+                switch_on_type(ObjectSchema::from_core_type(*table, m_col_key), [&](auto* t) -> void {
                     list = std::make_unique<typename ListType<decltype(*t)>::type>();
                 });
             }
@@ -230,7 +233,7 @@ T ThreadSafeReference::resolve(std::shared_ptr<Realm> const& realm)
     try {
         return payload.import_into(realm);
     }
-    catch (KeyNotFound const&) {
+    catch (InvalidKey const&) {
         // Object was deleted in a version after when the TSR was created
         return {};
     }

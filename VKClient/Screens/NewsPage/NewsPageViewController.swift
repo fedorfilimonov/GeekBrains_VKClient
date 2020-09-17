@@ -34,27 +34,17 @@ extension NewsPageViewController: UITableViewDataSource {
                 newsRow.append(news)
             }
         }
-        return newsRow.count
+        return 2
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return newsIndex.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsListCell", for: indexPath) as! NewsListCell
         
-        var newsRow = [NewsList]()
-        for news in workingNewsList {
-            
-            if newsIndex[indexPath.section].contains(news.newsDescription.first!) {
-            newsRow.append(news)
-            }
-        }
-        
-        cell.newsDescriptionLabel.text = newsRow[indexPath.row].newsDescription
-        cell.newsImage.image = newsRow[indexPath.row].newsImage
         
         return cell
     }

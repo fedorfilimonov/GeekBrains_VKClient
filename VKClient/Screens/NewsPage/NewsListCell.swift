@@ -9,8 +9,27 @@
 import UIKit
 
 class NewsListCell: UITableViewCell {
-    @IBOutlet weak var newsDescriptionLabel: UILabel!
-    @IBOutlet weak var newsImage: UIImageView!
+
+    // UI
+    @IBOutlet weak var authorPhoto: UIImageView!
+    @IBOutlet weak var authorName: UILabel!
+    
+    @IBOutlet weak var datePosted: UILabel!
+    
+    @IBOutlet weak var postText: UILabel!
+    
+    @IBOutlet weak var postImage: UIImageView!
+    @IBOutlet weak var likesButton: UIImageView!
+    
+    @IBOutlet weak var likesNumber: UILabel!
+    
+    @IBOutlet weak var commentButton: UIImageView!
+    
+    @IBOutlet weak var shareButton: UIImageView!
+    
+    @IBOutlet weak var viewsCountPhoto: UIImageView!
+    
+    @IBOutlet weak var viewsCountNumber: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

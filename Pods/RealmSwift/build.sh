@@ -22,7 +22,7 @@ source_root="$(dirname "$0")"
 
 : ${REALM_SYNC_VERSION:=$(sed -n 's/^REALM_SYNC_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
 
-: ${REALM_OBJECT_SERVER_VERSION:=$(sed -n 's/^MONGODB_STITCH_ADMIN_SDK_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
+: ${REALM_OBJECT_SERVER_VERSION:=$(sed -n 's/^REALM_OBJECT_SERVER_VERSION=\(.*\)$/\1/p' ${source_root}/dependencies.list)}
 
 # You can override the xcmode used
 : ${XCMODE:=xcodebuild} # must be one of: xcodebuild (default), xcpretty, xctool
@@ -363,6 +363,13 @@ download_common() {
     rm -rf "${download_type}-${version}" core
     mv "${temp_dir}/${download_type}-${version}" .
     ln -s "${download_type}-${version}" core
+
+    # Xcode 12 beta 1 ships a broken version of __bit_reference which breaks
+    # ABI compatibility with older versions, so grab a fixed version of that
+    # header.
+    if (( $(xcode_version_major) > 11 )); then
+        curl --silent https://raw.githubusercontent.com/llvm/llvm-project/4198874630be5c6126d78944f8a2d89dea90c7c4/libcxx/include/__bit_reference -o core/include/__bit_reference
+    fi
 }
 
 download_core() {
@@ -1230,19 +1237,17 @@ EOM
           rm -rf include
           mkdir -p include
           mv core/include include/core
-          cp Realm/ObjectStore/external/json/json.hpp include/core
 
-          mkdir -p include/impl/apple include/util/apple include/sync/impl/apple include/util/bson
+          mkdir -p include/impl/apple include/util/apple include/sync/impl/apple
           cp Realm/*.hpp include
           cp Realm/ObjectStore/src/*.hpp include
-          cp Realm/ObjectStore/src/impl/*.hpp include/impl
-          cp Realm/ObjectStore/src/impl/apple/*.hpp include/impl/apple
           cp Realm/ObjectStore/src/sync/*.hpp include/sync
           cp Realm/ObjectStore/src/sync/impl/*.hpp include/sync/impl
           cp Realm/ObjectStore/src/sync/impl/apple/*.hpp include/sync/impl/apple
+          cp Realm/ObjectStore/src/impl/*.hpp include/impl
+          cp Realm/ObjectStore/src/impl/apple/*.hpp include/impl/apple
           cp Realm/ObjectStore/src/util/*.hpp include/util
           cp Realm/ObjectStore/src/util/apple/*.hpp include/util/apple
-	  cp Realm/ObjectStore/src/util/bson/*.hpp include/util/bson
 
           echo '' > Realm/RLMPlatform.h
           if [ -n "$COCOAPODS_VERSION" ]; then
@@ -1542,10 +1547,11 @@ x.y.z Release notes (yyyy-MM-dd)
 <!-- ### Breaking Changes - ONLY INCLUDE FOR NEW MAJOR version -->
 
 ### Compatibility
-* File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
+* Realm Object Server: 3.21.0 or later.
+* Realm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
-* Carthage release for Swift is built with Xcode 11.6.
+* Carthage release for Swift is built with Xcode 11.5.
 
 ### Internal
 * Upgraded realm-core from ? to ?
