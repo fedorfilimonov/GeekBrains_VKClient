@@ -10,85 +10,100 @@ import Foundation
 
 class NetworkService {
     
+    // Manager
     static let shared = NetworkService()
     init() {}
     
+    // Data for API address
     private let scheme = "https"
     private let host = "api.vk.com"
     private let version = "5.122"
     
+    // MARK: - Load friends list
+    
     func getUserFriendsList (token: String, userID: String, completion: ((Swift.Result<UserFriendCodable, Error>) -> Void)? = nil) {
-        let configuration = URLSessionConfiguration.default
-//        let session =  URLSession(configuration: configuration)
-        let _ =  URLSession(configuration: configuration)
         
-        var urlConstructor = URLComponents()
-        urlConstructor.scheme = scheme
-        urlConstructor.host = host
-        urlConstructor.path = "/method/friends.get"
-        urlConstructor.queryItems = [
-            URLQueryItem(name: "access_token", value: token),
-            URLQueryItem(name: "user_id", value: userID),
-            URLQueryItem(name: "order", value: "name"),
-            URLQueryItem(name: "fields", value: "photo_100"),
-            URLQueryItem(name: "v", value: version),
-        ]
-        
-        guard let url = urlConstructor.url else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        // Adding to Global Queue
+        DispatchQueue.global(qos: .userInitiated).async {
+            let configuration = URLSessionConfiguration.default
+            //        let session =  URLSession(configuration: configuration)
+            let _ =  URLSession(configuration: configuration)
             
-            guard let data = data else { return }
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = self.scheme
+            urlConstructor.host = self.host
+            urlConstructor.path = "/method/friends.get"
+            urlConstructor.queryItems = [
+                URLQueryItem(name: "access_token", value: token),
+                URLQueryItem(name: "user_id", value: userID),
+                URLQueryItem(name: "order", value: "name"),
+                URLQueryItem(name: "fields", value: "photo_100"),
+                URLQueryItem(name: "v", value: self.version),
+            ]
             
-            do {
-                let userFriendsList  = try JSONDecoder().decode(UserFriendCodable.self, from: data)
-                completion?(.success(userFriendsList))
+            guard let url = urlConstructor.url else { return }
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 
-            } catch {
-                print(error.localizedDescription)
-                completion?(.failure(error))
+                guard let data = data else { return }
+                
+                do {
+                    let userFriendsList  = try JSONDecoder().decode(UserFriendCodable.self, from: data)
+                    completion?(.success(userFriendsList))
+                    
+                } catch {
+                    print(error.localizedDescription)
+                    completion?(.failure(error))
+                }
             }
+            
+            task.resume()
         }
-
-        task.resume()
     }
+    
+    // MARK: - Load groups list
     
     func getUserGroupsList (token: String, userID: String, completion: ((Swift.Result<UserGroupsCodable, Error>) -> Void)? = nil) {
-        let configuration = URLSessionConfiguration.default
-//        let session =  URLSession(configuration: configuration)
-        let _ =  URLSession(configuration: configuration)
         
-        var urlConstructor = URLComponents()
-        urlConstructor.scheme = scheme
-        urlConstructor.host = host
-        urlConstructor.path = "/method/groups.get"
-        urlConstructor.queryItems = [
-            URLQueryItem(name: "access_token", value: token),
-            URLQueryItem(name: "user_id", value: userID),
-            URLQueryItem(name: "extended", value: "1"),
-            URLQueryItem(name: "count", value: "20"),
-            URLQueryItem(name: "v", value: version),
-        ]
-        
-        guard let url = urlConstructor.url else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        DispatchQueue.global(qos: .userInitiated).async {
             
-            guard let data = data else { return }
+            let configuration = URLSessionConfiguration.default
+            //        let session =  URLSession(configuration: configuration)
+            let _ =  URLSession(configuration: configuration)
             
-            do {
-                let userGroupsList  = try JSONDecoder().decode(UserGroupsCodable.self, from: data)
-                completion?(.success(userGroupsList))
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = self.scheme
+            urlConstructor.host = self.host
+            urlConstructor.path = "/method/groups.get"
+            urlConstructor.queryItems = [
+                URLQueryItem(name: "access_token", value: token),
+                URLQueryItem(name: "user_id", value: userID),
+                URLQueryItem(name: "extended", value: "1"),
+                URLQueryItem(name: "count", value: "20"),
+                URLQueryItem(name: "v", value: self.version),
+            ]
+            
+            guard let url = urlConstructor.url else { return }
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 
-            } catch {
-                print(error.localizedDescription)
-                completion?(.failure(error))
+                guard let data = data else { return }
+                
+                do {
+                    let userGroupsList  = try JSONDecoder().decode(UserGroupsCodable.self, from: data)
+                    completion?(.success(userGroupsList))
+                    
+                } catch {
+                    print(error.localizedDescription)
+                    completion?(.failure(error))
+                }
             }
+            
+            task.resume()
         }
-        
-        task.resume()
     }
     
+    // MARK: - Groups search
     func getRequestedGroupsList (token: String) {
         let configuration = URLSessionConfiguration.default
         let session =  URLSession(configuration: configuration)
@@ -115,42 +130,89 @@ class NetworkService {
         dataTask.resume()
     }
     
+    // MARK: - Load user photos
+    
     func getUserPhotosList (token: String, friendID: String, completion: ((Swift.Result<FriendPhotosCodable, Error>) -> Void)? = nil) {
         
-        let configuration = URLSessionConfiguration.default
-//        let session =  URLSession(configuration: configuration)
-        let _ =  URLSession(configuration: configuration)
-        
-        var urlConstructor = URLComponents()
-        urlConstructor.scheme = scheme
-        urlConstructor.host = host
-        urlConstructor.path = "/method/photos.get"
-        urlConstructor.queryItems = [
-            URLQueryItem(name: "access_token", value: token),
-            URLQueryItem(name: "owner_id", value: friendID),
-            URLQueryItem(name: "album_id", value: "profile"),
-            URLQueryItem(name: "photo_sizes", value: "0"),
-            URLQueryItem(name: "count", value: "50"),
-            URLQueryItem(name: "v", value: version),
-        ]
-        
-        guard let url = urlConstructor.url else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        DispatchQueue.global(qos: .userInitiated).async {
             
-            guard let data = data else { return }
+            let configuration = URLSessionConfiguration.default
+            //        let session =  URLSession(configuration: configuration)
+            let _ =  URLSession(configuration: configuration)
             
-            do {
-                let userPhotosList  = try JSONDecoder().decode(FriendPhotosCodable.self, from: data)
-                completion?(.success(userPhotosList))
-                print(userPhotosList)
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = self.scheme
+            urlConstructor.host = self.host
+            urlConstructor.path = "/method/photos.get"
+            urlConstructor.queryItems = [
+                URLQueryItem(name: "access_token", value: token),
+                URLQueryItem(name: "owner_id", value: friendID),
+                URLQueryItem(name: "album_id", value: "profile"),
+                URLQueryItem(name: "photo_sizes", value: "0"),
+                URLQueryItem(name: "count", value: "50"),
+                URLQueryItem(name: "v", value: self.version),
+            ]
+            
+            guard let url = urlConstructor.url else { return }
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 
-            } catch {
-                print(error.localizedDescription)
-                completion?(.failure(error))
+                guard let data = data else { return }
+                
+                do {
+                    let userPhotosList  = try JSONDecoder().decode(FriendPhotosCodable.self, from: data)
+                    completion?(.success(userPhotosList))
+                    print(userPhotosList)
+                    
+                } catch {
+                    print(error.localizedDescription)
+                    completion?(.failure(error))
+                }
             }
+            
+            task.resume()
         }
+    }
+    
+    // MARK: - Load news list, type "post"
+    
+    func getNewsListTypePost (token: String, userID: String, completion: ((Swift.Result<NewsListTypePost, Error>) -> Void)? = nil) {
         
-        task.resume()
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            let configuration = URLSessionConfiguration.default
+            //        let session =  URLSession(configuration: configuration)
+            let _ =  URLSession(configuration: configuration)
+            
+            var urlConstructor = URLComponents()
+            urlConstructor.scheme = self.scheme
+            urlConstructor.host = self.host
+            urlConstructor.path = "/method/newsfeed.get"
+            urlConstructor.queryItems = [
+                URLQueryItem(name: "access_token", value: token),
+                URLQueryItem(name: "user_id", value: userID),
+                URLQueryItem(name: "filters", value: "post"),
+                URLQueryItem(name: "count", value: "5"),
+                URLQueryItem(name: "v", value: "5.111")
+            ]
+            
+            guard let url = urlConstructor.url else { return }
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                
+                guard let data = data else { return }
+                
+                do {
+                    let userNewsListTypePost  = try JSONDecoder().decode(NewsListTypePost.self, from: data)
+                    completion?(.success(userNewsListTypePost))
+                    
+                } catch {
+                    print(error.localizedDescription)
+                    completion?(.failure(error))
+                }
+            }
+            
+            task.resume()
+        }
     }
 }

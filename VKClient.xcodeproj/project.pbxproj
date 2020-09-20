@@ -15,6 +15,7 @@
 		3214F4F624ADF6F600D2EB08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F424ADF6F600D2EB08 /* Main.storyboard */; };
 		3214F4F824ADF6F700D2EB08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F724ADF6F700D2EB08 /* Assets.xcassets */; };
 		3214F4FB24ADF6F700D2EB08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3214F4F924ADF6F700D2EB08 /* LaunchScreen.storyboard */; };
+		32152511251754F100A849EA /* NewsListPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32152510251754F100A849EA /* NewsListPost.swift */; };
 		322027C824D079F200C1EDBD /* NewsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322027C724D079F200C1EDBD /* NewsPageViewController.swift */; };
 		322027CA24D0815300C1EDBD /* NewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322027C924D0815300C1EDBD /* NewsList.swift */; };
 		322027CC24D0850D00C1EDBD /* NewsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322027CB24D0850C00C1EDBD /* NewsListCell.swift */; };
@@ -54,6 +55,7 @@
 		3214F4F724ADF6F700D2EB08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3214F4FA24ADF6F700D2EB08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3214F4FC24ADF6F700D2EB08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32152510251754F100A849EA /* NewsListPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListPost.swift; sourceTree = "<group>"; };
 		322027C724D079F200C1EDBD /* NewsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPageViewController.swift; sourceTree = "<group>"; };
 		322027C924D0815300C1EDBD /* NewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsList.swift; sourceTree = "<group>"; };
 		322027CB24D0850C00C1EDBD /* NewsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCell.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				322E002B24EE9A83000A35D9 /* FriendRealm.swift */,
 				32D0F3E524E7B700005415EA /* PhotoRealm.swift */,
 				32D0F3E724E7B70D005415EA /* GroupsRealm.swift */,
+				32152510251754F100A849EA /* NewsListPost.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				32536CD724E42E300076454E /* NetworkService.swift in Sources */,
 				3214F4F124ADF6F600D2EB08 /* SceneDelegate.swift in Sources */,
 				322027CA24D0815300C1EDBD /* NewsList.swift in Sources */,
+				32152511251754F100A849EA /* NewsListPost.swift in Sources */,
 				3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */,
 				3288766224BC93E20087BFEA /* SmallProfilePicView.swift in Sources */,
 				32569AC824F7E80A00AF143E /* RealmManager.swift in Sources */,
