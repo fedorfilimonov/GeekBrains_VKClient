@@ -14,6 +14,13 @@ class NetworkService {
     static let shared = NetworkService()
     init() {}
     
+    // Queue
+    private static let friendsQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+    
     // Data for API address
     private let scheme = "https"
     private let host = "api.vk.com"
@@ -24,7 +31,7 @@ class NetworkService {
     func getUserFriendsList (token: String, userID: String, completion: ((Swift.Result<UserFriendCodable, Error>) -> Void)? = nil) {
         
         // Adding to Global Queue
-        DispatchQueue.global(qos: .userInitiated).async {
+        let requestOperation = BlockOperation {
             let configuration = URLSessionConfiguration.default
             //        let session =  URLSession(configuration: configuration)
             let _ =  URLSession(configuration: configuration)
@@ -43,29 +50,35 @@ class NetworkService {
             
             guard let url = urlConstructor.url else { return }
             
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                
-                guard let data = data else { return }
-                
-                do {
-                    let userFriendsList  = try JSONDecoder().decode(UserFriendCodable.self, from: data)
-                    completion?(.success(userFriendsList))
+            let responseOperation = BlockOperation {
+                let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                     
-                } catch {
-                    print(error.localizedDescription)
-                    completion?(.failure(error))
+                    let parsingOperation = BlockOperation {
+                        guard let data = data else { return }
+                        
+                        do {
+                            let userFriendsList  = try JSONDecoder().decode(UserFriendCodable.self, from: data)
+                            completion?(.success(userFriendsList))
+                            
+                        } catch {
+                            print(error.localizedDescription)
+                            completion?(.failure(error))
+                        }
+                    }
+                    NetworkService.friendsQueue.addOperation(parsingOperation)
+                    //            task.resume()
                 }
             }
-            
-            task.resume()
+            NetworkService.friendsQueue.addOperation(responseOperation)
         }
+        NetworkService.friendsQueue.addOperation(requestOperation)
     }
     
     // MARK: - Load groups list
     
     func getUserGroupsList (token: String, userID: String, completion: ((Swift.Result<UserGroupsCodable, Error>) -> Void)? = nil) {
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .utility).async {
             
             let configuration = URLSessionConfiguration.default
             //        let session =  URLSession(configuration: configuration)
@@ -134,7 +147,7 @@ class NetworkService {
     
     func getUserPhotosList (token: String, friendID: String, completion: ((Swift.Result<FriendPhotosCodable, Error>) -> Void)? = nil) {
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .utility).async {
             
             let configuration = URLSessionConfiguration.default
             //        let session =  URLSession(configuration: configuration)
@@ -178,7 +191,7 @@ class NetworkService {
     
     func getNewsListTypePost (token: String, userID: String, completion: ((Swift.Result<NewsListTypePost, Error>) -> Void)? = nil) {
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .utility).async {
             
             let configuration = URLSessionConfiguration.default
             //        let session =  URLSession(configuration: configuration)

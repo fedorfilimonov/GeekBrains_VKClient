@@ -62,12 +62,6 @@ class LogInViewController: UIViewController {
         loginPageScrollView.endEditing(true)
     }
     
-    // MARK: - viewDidAppear
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     // MARK: - viewDidLoad
     
     override func viewDidLoad() {
