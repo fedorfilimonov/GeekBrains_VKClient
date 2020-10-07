@@ -16,7 +16,7 @@ class RealmManager {
         guard let realm = try? Realm(configuration: configuration) else { return nil }
         self.realm = realm
         
-        print("Realm database file path:")
+        print("\n\n Realm database file path:")
         print(realm.configuration.fileURL ?? "")
     }
     

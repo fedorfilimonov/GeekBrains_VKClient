@@ -10,7 +10,7 @@ import UIKit
 
 class FriendPageViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
     static let storyboardIdentifier = "FriendListActionSegue"
     

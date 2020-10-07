@@ -6,7 +6,8 @@ target 'VKClient' do
   use_frameworks!
 
   # Pods for VKClient
-pod 'RealmSwift', '5.3.0'
+pod 'RealmSwift', '5.3.5'
+pod 'Alamofire', '~>5.2'
 
 
 end

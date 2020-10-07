@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Alamofire
+import RealmSwift
 
 class NetworkService {
     
@@ -18,6 +20,13 @@ class NetworkService {
     private let scheme = "https"
     private let host = "api.vk.com"
     private let version = "5.122"
+    
+    static let sessionAF: Alamofire.Session = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 20
+        let session = Alamofire.Session(configuration: configuration)
+        return session
+    }()
     
     // MARK: - Load friends list
     
@@ -174,45 +183,48 @@ class NetworkService {
         }
     }
     
-    // MARK: - Load news list, type "post"
+    // MARK: - Load news
     
-    func getNewsListTypePost (token: String, userID: String, completion: ((Swift.Result<NewsListTypePost, Error>) -> Void)? = nil) {
+    enum typeOfNews: String {
+        case post = "post"
+        case photo = "photo,wall_photo"
+    }
+    
+    func loadNews(token: String, userID: String, typeOfNews: typeOfNews, completion: ((Result<NewsResponse, Error>) -> Void)? = nil) {
+        let path = "/method/newsfeed.get"
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        let params: Parameters = [
+            "access_token": token,
+            "user_id": userID,
+            "filters": typeOfNews,
+            "source_ids": "groups",
+            "count": 5,
+            "v": "5.124"
+        ]
+        
+        NetworkService.sessionAF.request("https://api.vk.com" + path, method: .get, parameters: params).responseData(queue: .global(qos: .utility)) { response in
+            guard let data = response.value else { return }
             
-            let configuration = URLSessionConfiguration.default
-            //        let session =  URLSession(configuration: configuration)
-            let _ =  URLSession(configuration: configuration)
+            var newsItems = List<NewsItems>()
+            var newsProfiles = List<NewsProfiles>()
+            var newsGroups = List<NewsGroups>()
             
-            var urlConstructor = URLComponents()
-            urlConstructor.scheme = self.scheme
-            urlConstructor.host = self.host
-            urlConstructor.path = "/method/newsfeed.get"
-            urlConstructor.queryItems = [
-                URLQueryItem(name: "access_token", value: token),
-                URLQueryItem(name: "user_id", value: userID),
-                URLQueryItem(name: "filters", value: "post"),
-                URLQueryItem(name: "count", value: "5"),
-                URLQueryItem(name: "v", value: "5.111")
-            ]
+            let parsedNewsElementsDispatchGroup = DispatchGroup()
             
-            guard let url = urlConstructor.url else { return }
-            
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                
-                guard let data = data else { return }
-                
-                do {
-                    let userNewsListTypePost  = try JSONDecoder().decode(NewsListTypePost.self, from: data)
-                    completion?(.success(userNewsListTypePost))
-                    
-                } catch {
-                    print(error.localizedDescription)
-                    completion?(.failure(error))
-                }
+            DispatchQueue.global().async(group: parsedNewsElementsDispatchGroup) {
+                newsItems = try! JSONDecoder().decode(News.self, from: data).response?.items ?? List<NewsItems>()
+            }
+            DispatchQueue.global().async(group: parsedNewsElementsDispatchGroup) {
+                newsProfiles = try! JSONDecoder().decode(News.self, from: data).response?.profiles ??  List<NewsProfiles>()
+            }
+            DispatchQueue.global().async(group: parsedNewsElementsDispatchGroup) {
+                newsGroups = try! JSONDecoder().decode(News.self, from: data).response?.groups ?? List<NewsGroups>()
             }
             
-            task.resume()
+            parsedNewsElementsDispatchGroup.notify(queue: DispatchQueue.main) {
+                let news = NewsResponse(items: newsItems, profiles: newsProfiles, groups: newsGroups, newsResponseNewOffset: "", nextFrom: "")
+                completion?(.success(news))
+            }
         }
     }
 }
