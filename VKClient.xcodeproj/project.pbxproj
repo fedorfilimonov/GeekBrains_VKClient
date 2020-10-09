@@ -51,6 +51,7 @@
 		3299CBF424BDE06700ACF143 /* FriendPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299CBF324BDE06700ACF143 /* FriendPageCell.swift */; };
 		329F04EC24FA87A000D0E363 /* FriendsListViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329F04EB24FA87A000D0E363 /* FriendsListViewController + TableView.swift */; };
 		329F04EE24FA8F6200D0E363 /* GroupsListViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329F04ED24FA8F6200D0E363 /* GroupsListViewController + TableView.swift */; };
+		32A0FBAD253077CD00A7759C /* NewsPageViewController + TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A0FBAC253077CD00A7759C /* NewsPageViewController + TableView.swift */; };
 		32D0F3E624E7B700005415EA /* PhotoRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E524E7B700005415EA /* PhotoRealm.swift */; };
 		32D0F3E824E7B70D005415EA /* GroupsRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D0F3E724E7B70D005415EA /* GroupsRealm.swift */; };
 		32ECAB2824B8DC4800393C45 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAB2724B8DC4800393C45 /* FriendsListViewController.swift */; };
@@ -107,6 +108,7 @@
 		3299CBF324BDE06700ACF143 /* FriendPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPageCell.swift; sourceTree = "<group>"; };
 		329F04EB24FA87A000D0E363 /* FriendsListViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FriendsListViewController + TableView.swift"; sourceTree = "<group>"; };
 		329F04ED24FA8F6200D0E363 /* GroupsListViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupsListViewController + TableView.swift"; sourceTree = "<group>"; };
+		32A0FBAC253077CD00A7759C /* NewsPageViewController + TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewsPageViewController + TableView.swift"; sourceTree = "<group>"; };
 		32D0F3E524E7B700005415EA /* PhotoRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRealm.swift; sourceTree = "<group>"; };
 		32D0F3E724E7B70D005415EA /* GroupsRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealm.swift; sourceTree = "<group>"; };
 		32ECAB2724B8DC4800393C45 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
@@ -325,8 +327,8 @@
 			isa = PBXGroup;
 			children = (
 				3299CBF124BDDF1F00ACF143 /* FriendPageViewController.swift */,
-				3299CBF324BDE06700ACF143 /* FriendPageCell.swift */,
 				327AC4E124C7394200FCFC9F /* PhotoLikesControl.swift */,
+				3299CBF324BDE06700ACF143 /* FriendPageCell.swift */,
 			);
 			path = FriendsPage;
 			sourceTree = "<group>";
@@ -335,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				322027C724D079F200C1EDBD /* NewsPageViewController.swift */,
+				32A0FBAC253077CD00A7759C /* NewsPageViewController + TableView.swift */,
 				322027CB24D0850C00C1EDBD /* NewsListCell.swift */,
 			);
 			path = NewsPage;
@@ -525,6 +528,7 @@
 				32D0F3E624E7B700005415EA /* PhotoRealm.swift in Sources */,
 				32D0F3E824E7B70D005415EA /* GroupsRealm.swift in Sources */,
 				327AC4E224C7394200FCFC9F /* PhotoLikesControl.swift in Sources */,
+				32A0FBAD253077CD00A7759C /* NewsPageViewController + TableView.swift in Sources */,
 				322E002C24EE9A83000A35D9 /* FriendRealm.swift in Sources */,
 				3212E75E24CB15FA0034E03B /* NameLetterCellView.swift in Sources */,
 				3286F436252E2617000CB949 /* NewsItemsPhotosItems.swift in Sources */,

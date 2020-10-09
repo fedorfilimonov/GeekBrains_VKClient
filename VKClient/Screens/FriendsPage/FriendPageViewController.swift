@@ -15,15 +15,18 @@ class FriendPageViewController: UIViewController {
     static let storyboardIdentifier = "FriendListActionSegue"
     
     var friend = UserFriendItem()
-
     var photosList = [FriendPhotosItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
-        
-        let friendID = String (friend.id)
-        NetworkService.shared.getUserPhotosList(token: Session.shared.token, friendID: friendID) { [weak self] result in
+        initiateNetworsService()
+    }
+}
+
+extension FriendPageViewController {
+    func initiateNetworsService() {
+        NetworkService.shared.getUserPhotosList(token: Session.shared.token, friendID: String (friend.id)) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(userPhotosList):

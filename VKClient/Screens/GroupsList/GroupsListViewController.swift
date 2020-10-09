@@ -25,7 +25,6 @@ class GroupsListViewController: UIViewController {
         }
     }
     
-    
     // Managers
     private var networkService = NetworkService.shared
     private var realmManager = RealmManager.shared
@@ -51,8 +50,18 @@ class GroupsListViewController: UIViewController {
         super.viewDidLoad()
         
         loadData()
-        
-        // MARK: - Realm Notifications
+        initiateRealmNotifications()
+    }
+    
+    deinit {
+        groupsNotificationToken?.invalidate()
+    }
+}
+
+extension GroupsListViewController {
+    
+    // MARK: - Realm Notifications
+    func initiateRealmNotifications() {
         groupsNotificationToken = groupsList?.observe { [weak self] change in
             switch change {
             case .initial:
@@ -63,11 +72,11 @@ class GroupsListViewController: UIViewController {
             case let .update(results, deletions: deletions, insertions: insertions, modifications: modifications):
                 #if DEBUG
                 print("""
-                    New count: \(results.count)
-                    Deletions: \(deletions)
-                    Insertions: \(insertions)
-                    Modifications: \(modifications)
-                """)
+                New count: \(results.count)
+                Deletions: \(deletions)
+                Insertions: \(insertions)
+                Modifications: \(modifications)
+            """)
                 #endif
                 
                 self?.tableView.beginUpdates()
@@ -105,12 +114,7 @@ class GroupsListViewController: UIViewController {
         }
     }
     
-    deinit {
-        groupsNotificationToken?.invalidate()
-    }
-    
-    
-    // MARK: - loadData // Loading of Groups List
+    // MARK: Loading of Groups List
     private func loadData(completion: (() -> Void)? = nil) {
         NetworkService.shared.getUserGroupsList(token: Session.shared.token, userID: Session.shared.userId) { [weak self] result in
             
