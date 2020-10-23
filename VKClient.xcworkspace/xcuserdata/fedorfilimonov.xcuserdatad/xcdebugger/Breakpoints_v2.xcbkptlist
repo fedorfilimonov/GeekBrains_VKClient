@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "0973CAA7-1991-43DE-92D6-9927DAF65FCA"
-   type = "1"
+   uuid = "70D8F872-8770-43F4-ACEC-9EA9D20687E7"
+   type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "53A602E5-A2C5-4246-9485-7DB438A28BF8"
-            shouldBeEnabled = "No"
+            uuid = "378964F8-B43C-4916-B778-05C10C7067F7"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VKClient/Controllers/LoginController.swift"
+            filePath = "VKClient/Screens/GroupsList/GroupsListViewController + TableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "webView(_:decidePolicyFor:decisionHandler:)"
-            landmarkType = "7">
+            startingLineNumber = "8"
+            endingLineNumber = "8"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
